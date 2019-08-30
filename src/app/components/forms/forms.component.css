@@ -1,0 +1,11 @@
+table{
+    width: 100%;
+}
+.url_form{
+    display: block;
+    color: blue;
+    margin-top: 6px;
+}
+tr{
+    height: 57px!important;
+}
