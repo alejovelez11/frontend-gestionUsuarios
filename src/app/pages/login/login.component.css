@@ -1,0 +1,68 @@
+
+.login-register {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  height: 100%;
+  width: 100%;
+  padding: 10% 0;
+  position: fixed; 
+}
+  
+.login-box {
+  width: 400px;
+  margin: 0 auto; 
+}
+
+.login-box .footer {
+  width: 100%;
+  left: 0px;
+  right: 0px; 
+}
+
+.login-box .social {
+  display: block;
+  margin-bottom: 30px; 
+}
+
+#recoverform {
+  display: none;
+}
+  
+.login-sidebar {
+  padding: 0px;
+  margin-top: 0px; 
+}
+
+.login-sidebar .login-box {
+  right: 0px;
+  position: absolute;
+  height: 100%; 
+}
+
+mat-form-field{
+  width: 100%;
+}
+
+.flex{
+  display: flex;
+  justify-content: center;
+  align-items: center
+}
+
+.btn-acceder{
+  width: 100%;
+}
+
+.logo{
+  margin-bottom: 40px;
+  width: 120px;
+}
+
+.logo-title-container{
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
