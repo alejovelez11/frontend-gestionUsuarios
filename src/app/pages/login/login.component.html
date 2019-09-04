@@ -1,24 +1,39 @@
 <section id="wrapper" class="login-register login-sidebar" style="background-image:url(../assets/images/background/login-register.jpg);">
     <div class="login-box card">
         <div class="card-body flex">
-            <form class="form-horizontal form-material" id="loginform" action="index.html">
+            <form [formGroup]="formUser" (ngSubmit)="login()" class="form-horizontal form-material">
                 <div class="logo-title-container">
-                    <img src="assets/img/logo.png" alt="" class="logo">
+                    <img src="assets/img/logo.png" alt="logo" class="logo">
                     <h4 class="text-center title-login">INICIAR SESIÓN</h4>
                 </div>
                 <mat-grid-list cols="1" rowHeight="1:1">
                     <mat-form-field appearance="fill">
-                        <mat-label>Usuario</mat-label>
-                        <input matInput placeholder="Usuario">
+                        <mat-label>Login</mat-label>
+                        <input matInput placeholder="Login" formControlName="login" name="login" type="text">
+                        <mat-error *ngIf="!formUser.controls['login'].valid &&
+                            !formUser.controls['login'].pristine &&
+                            formUser.controls['login'].dirty ||
+                            formUser.controls['login'].touched">
+                            Login inválido
+                        </mat-error>
                     </mat-form-field>
                     <mat-form-field appearance="fill">
                         <mat-label>Contraseña</mat-label>
-                        <input matInput placeholder="Contraseña" type="password">
+                        <input matInput placeholder="Contraseña" formControlName="password" [type]="hide ? 'password' : 'text'" name="password" >
+                        <button mat-icon-button matSuffix type="button" (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                        <mat-error *ngIf="!formUser.controls['password'].valid &&
+                            !formUser.controls['password'].pristine &&
+                            formUser.controls['password'].dirty ||
+                            formUser.controls['password'].touched">
+                            Contraseña inválida
+                        </mat-error>
                     </mat-form-field>
                 </mat-grid-list>
                 <div class="form-group text-center m-t-20">
                     <div class="col-xs-12">
-                        <button mat-raised-button color="primary" class="btn-acceder">ACCEDER</button>
+                        <button [disabled]="formUser.invalid" mat-raised-button color="primary" class="btn-acceder" type="submit">ACCEDER</button>
                     </div>
                 </div>
             </form>

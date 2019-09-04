@@ -5,7 +5,8 @@ import { FormsComponent } from './pages/forms/forms.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
 import { NopagefoundComponent } from './pages/nopagefound/nopagefound.component';
-;
+// import { LoginGuard } from './services/guards/login.guard';
+
 
 
 const appRoutes: Routes = [

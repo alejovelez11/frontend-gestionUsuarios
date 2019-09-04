@@ -16,6 +16,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { PagesComponent } from './pages/pages.component';
 import { LoginComponent } from './pages/login/login.component';
 import { NopagefoundComponent } from './pages/nopagefound/nopagefound.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -35,11 +36,13 @@ import { NopagefoundComponent } from './pages/nopagefound/nopagefound.component'
     MaterialModule,
     HttpClientModule,
     AppRoutingModule,
-    app_routes
-    
+    app_routes,
+    FormsModule,
+    ReactiveFormsModule,    
   ],
   providers: [
     FormsService
+    // LoginGuard
   ],
   bootstrap: [AppComponent]
 })
