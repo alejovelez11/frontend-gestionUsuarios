@@ -11,7 +11,7 @@ export class UsuariosService {
   logueado:boolean 
   constructor(public http:HttpClient) { }
   loginService(usuario:Login){
-    let url = `${ URL_SERVICIOS }/users.controller.php`
+    let url = `${ URL_SERVICIOS }login`
     return this.http.post(url, usuario).pipe(
       map(res => {
         this.logueado = res["error"]
@@ -20,8 +20,8 @@ export class UsuariosService {
     )
   }
   islogged() {
-    let url = `${ URL_SERVICIOS }/users.controller.php`
-
+    let url = `${ URL_SERVICIOS }validatesesion`
+    return this.http.get(url)
   }
   // islogged():boolean {
   //     return this.logueado == false ? true : false

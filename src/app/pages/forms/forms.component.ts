@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsService } from 'src/app/services/forms/forms.service';
+import { UsuariosService } from 'src/app/services/usuarios/usuarios.service';
 
 @Component({
   selector: 'app-forms',
@@ -10,13 +11,17 @@ export class FormsComponent implements OnInit {
 
   displayedColumns: string[] = ['select', 'nombre'];
   dataSource;
-  constructor(private service:FormsService){
-      this.service.getInfo().subscribe(res => {
-        this.dataSource = res;
-      })
+  constructor(private service:FormsService, private serviceUser:UsuariosService){
   }
-
+  
   ngOnInit() {
+    this.service.getForms().subscribe(res => {
+      this.dataSource = res;
+      // console.log(res);
+    })
+    this.serviceUser.islogged().subscribe(res => {
+      console.log(res);
+    })
   }
 
 }

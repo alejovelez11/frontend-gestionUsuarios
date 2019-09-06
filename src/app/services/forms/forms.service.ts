@@ -8,8 +8,8 @@ import { URL_SERVICIOS } from 'src/app/config/config';
 export class FormsService {
 
   constructor(private http:HttpClient) {}
-  getInfo(){
-    let url = `${URL_SERVICIOS}formularios`
+  getForms(){
+    let url = `${URL_SERVICIOS}forms`
     return this.http.get(url)
   }
 }

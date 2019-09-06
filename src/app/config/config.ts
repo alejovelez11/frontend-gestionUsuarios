@@ -1,1 +1,1 @@
-export const URL_SERVICIOS = 'http://localhost:8080/gestionUsuarios/backend/controller/'
+export const URL_SERVICIOS = 'http://localhost:8080/gestionUsuarios/services/'
