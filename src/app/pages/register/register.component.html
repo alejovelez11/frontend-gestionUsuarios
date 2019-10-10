@@ -3,171 +3,123 @@
         <mat-label>Numero de registros</mat-label>
         <input type="number" matInput>
     </mat-form-field>
-    
-    <button mat-raised-button color="primary" class="btn-left">
-        Agregar
+    <button mat-stroked-button color="primary">
+        Agregar fila
     </button>
 </div>
-<mat-grid-list cols="5" rowHeight="80px">
-    <mat-grid-tile>
-        <mat-form-field appearance="fill">
-            <mat-label>Nombre Completo</mat-label>
-            <input matInput placeholder="Nombre Completo">
-        </mat-form-field>
-    </mat-grid-tile>
+<form (ngSubmit)="register(form)" #form="ngForm">
+    <mat-grid-list *ngFor="let groupForm of registerArray; let i = index" rowHeight="80px" (window:resize)="onResize($event)" [cols]="breakpoint">
+        <mat-grid-tile>
+            <mat-form-field appearance="fill">
+                <mat-label>Nombre Completo</mat-label>
+                <input  matInput
+                        type = "text"
+                        placeholder = "Nombre Completo"
+                        name = "fullName_{{i}}"
+                        [(ngModel)]="groupForm.fullName"
+                        required
+                        #fullnames = ngModel
+                        (keyup)="maysFirst($event)"
+                        (change)="removeSpaces($event)">
+                        <mat-error *ngIf="fullnames.errors?.required"> 
+                            Nombre completo inválido
+                        </mat-error> 
+            </mat-form-field>
+        </mat-grid-tile> 
 
-    <mat-grid-tile>
-        <mat-form-field appearance="fill">
-            <mat-label>Login</mat-label>
-            <input matInput placeholder="Login">
-        </mat-form-field>
-    </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field appearance="fill">
+                <mat-label>Login</mat-label>
+                <input  matInput 
+                        type = "text"
+                        placeholder="Login"
+                        name = "login_{{i}}"
+                        [(ngModel)]="groupForm.login"
+                        #login = ngModel
+                        required
+                        (change)="removeSpaces($event)"
+                        (keyup)="lowerCase($event)">
+                        <mat-error *ngIf="login.errors?.required"> 
+                            Login inválido
+                        </mat-error> 
+            </mat-form-field>
+        </mat-grid-tile>
 
-    <mat-grid-tile>
-        <mat-form-field appearance="fill">
-            <mat-label>Cedula</mat-label>
-            <input matInput placeholder="Cedula">
-        </mat-form-field>
-    </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field appearance="fill">
+                <mat-label>Cedula</mat-label>
+                <input  matInput
+                        type = "number"
+                        placeholder="Cedula"
+                        name = "identification_{{i}}"
+                        [(ngModel)]="groupForm.identification"
+                        required
+                        #identification_ = ngModel
+                        (change)="removeSpaces($event)"
+                        (keyup)="lowerCase($event)">
+                        <mat-error *ngIf="identification_.errors?.required"> 
+                            Cedula inválida
+                        </mat-error>
+            </mat-form-field>
+        </mat-grid-tile>
 
-    <mat-grid-tile>
-        <mat-form-field appearance="fill">
-            <mat-label>Correo</mat-label>
-            <input matInput placeholder="Correo">
-        </mat-form-field>
-    </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field appearance="fill">
+                <mat-label>Correo</mat-label>
+                <input  matInput 
+                        placeholder="Correo"
+                        type = "email"
+                        name = "email_{{i}}"
+                        [(ngModel)]="groupForm.email"
+                        required
+                        #email = ngModel
+                        (change)="removeSpaces($event)"
+                        (keyup)="lowerCase($event)">
+                        <mat-error *ngIf="email.errors?.required"> 
+                            Correo inválido
+                        </mat-error>
+            </mat-form-field>
+        </mat-grid-tile>
+        
+        <mat-grid-tile>
+            <mat-form-field appearance="fill">
+                <mat-label>Perfil</mat-label>
+                        <mat-select name = "profile_{{i}}"
+                                    required
+                                    [(ngModel)]="groupForm.profile"
+                                    #profile = ngModel
+                                    (selectionChange)="saveProfile($event)">
+                            <mat-option>--</mat-option>
+                            <mat-option value="0">
+                                Asesor
+                            </mat-option>
+                            <mat-option value="1">
+                                Coordinador
+                            </mat-option>
+                            <mat-option value="2">
+                                Supervisor
+                            </mat-option>
+                            <mat-option value="3">
+                                Gestor Datos
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="profile.errors?.required"> 
+                            Perfil inválido
+                        </mat-error>
+            </mat-form-field>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <button mat-raised-button color="primary" type="submit" class="mt-4">
+        Registrar
+    </button>
+</form>
 
-    <mat-grid-tile>
-        <mat-form-field appearance="fill">
-            <mat-label>Perfil</mat-label>
-            <mat-select>
-                <mat-option>
-                    Asesor
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-    </mat-grid-tile>
-    <mat-grid-tile>
-        <mat-form-field appearance="fill">
-            <mat-label>Nombre Completo</mat-label>
-            <input matInput placeholder="Nombre Completo">
-        </mat-form-field>
-    </mat-grid-tile>
-
-    <mat-grid-tile>
-        <mat-form-field appearance="fill">
-            <mat-label>Login</mat-label>
-            <input matInput placeholder="Login">
-        </mat-form-field>
-    </mat-grid-tile>
-
-    <mat-grid-tile>
-        <mat-form-field appearance="fill">
-            <mat-label>Cedula</mat-label>
-            <input matInput placeholder="Cedula">
-        </mat-form-field>
-    </mat-grid-tile>
-
-    <mat-grid-tile>
-        <mat-form-field appearance="fill">
-            <mat-label>Correo</mat-label>
-            <input matInput placeholder="Correo">
-        </mat-form-field>
-    </mat-grid-tile>
-
-    <mat-grid-tile>
-        <mat-form-field appearance="fill">
-            <mat-label>Perfil</mat-label>
-            <mat-select>
-                <mat-option>
-                    Asesor
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-    </mat-grid-tile>
-    <mat-grid-tile>
-        <mat-form-field appearance="fill">
-            <mat-label>Nombre Completo</mat-label>
-            <input matInput placeholder="Nombre Completo">
-        </mat-form-field>
-    </mat-grid-tile>
-
-    <mat-grid-tile>
-        <mat-form-field appearance="fill">
-            <mat-label>Login</mat-label>
-            <input matInput placeholder="Login">
-        </mat-form-field>
-    </mat-grid-tile>
-
-    <mat-grid-tile>
-        <mat-form-field appearance="fill">
-            <mat-label>Cedula</mat-label>
-            <input matInput placeholder="Cedula">
-        </mat-form-field>
-    </mat-grid-tile>
-
-    <mat-grid-tile>
-        <mat-form-field appearance="fill">
-            <mat-label>Correo</mat-label>
-            <input matInput placeholder="Correo">
-        </mat-form-field>
-    </mat-grid-tile>
-
-    <mat-grid-tile>
-        <mat-form-field appearance="fill">
-            <mat-label>Perfil</mat-label>
-            <mat-select>
-                <mat-option>
-                    Asesor
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-    </mat-grid-tile>
-    <mat-grid-tile>
-        <mat-form-field appearance="fill">
-            <mat-label>Nombre Completo</mat-label>
-            <input matInput placeholder="Nombre Completo">
-        </mat-form-field>
-    </mat-grid-tile>
-
-    <mat-grid-tile>
-        <mat-form-field appearance="fill">
-            <mat-label>Login</mat-label>
-            <input matInput placeholder="Login">
-        </mat-form-field>
-    </mat-grid-tile>
-
-    <mat-grid-tile>
-        <mat-form-field appearance="fill">
-            <mat-label>Cedula</mat-label>
-            <input matInput placeholder="Cedula">
-        </mat-form-field>
-    </mat-grid-tile>
-
-    <mat-grid-tile>
-        <mat-form-field appearance="fill">
-            <mat-label>Correo</mat-label>
-            <input matInput placeholder="Correo">
-        </mat-form-field>
-    </mat-grid-tile>
-
-    <mat-grid-tile>
-        <mat-form-field appearance="fill">
-            <mat-label>Perfil</mat-label>
-            <mat-select>
-                <mat-option>
-                    Asesor
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-    </mat-grid-tile>
-    
-</mat-grid-list>
 <button mat-fab
         color="primary"
         class="button-plus"
         matTooltip="Agregar fila"
-        matTooltipPosition="left">
+        matTooltipPosition="left"
+        (click)="addRow()">
     <i class="material-icons">
         add
     </i>

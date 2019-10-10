@@ -1,26 +1,33 @@
 import { Routes, RouterModule } from "@angular/router";
-
-import { PagesComponent } from './pages/pages.component';
-import { FormsComponent } from './pages/forms/forms.component';
-import { RegisterComponent } from './pages/register/register.component';
-import { LoginComponent } from './pages/login/login.component';
+import { LoginComponent } from './login/login.component';
 import { NopagefoundComponent } from './pages/nopagefound/nopagefound.component';
-// import { LoginGuard } from './services/guards/login.guard';
-
-
+import { InicioComponent } from './pages/inicio/inicio.component';
+import { DetalleRegistroComponent } from './pages/detalle-registro/detalle-registro.component';
+import { DetalleUsuariosComponent } from './pages/detalle-usuarios/detalle-usuarios.component';
+import { DetalleFormulariosComponent } from './pages/detalle-formularios/detalle-formularios.component';
 
 const appRoutes: Routes = [
     {
-        path:'',
-        component: PagesComponent,
+        path:'login',
+        component: LoginComponent
+    },
+    {
+        path:'inicio',
+         component: InicioComponent
+    },
+    {
+        path:'detalle_registro/:id',
+        component: DetalleRegistroComponent,
         children: [
-            {path:'formularios', component: FormsComponent},
-            {path:'registros', component: RegisterComponent},
-            {path:'', redirectTo:'/formularios', pathMatch:'full'},
+            {path:'detalle_usuarios', component: DetalleUsuariosComponent},
+            {path:'detalle_formularios', component: DetalleFormulariosComponent},
         ]
     },
-    {path:'login', component: LoginComponent},
-    {path:'**', component:NopagefoundComponent}
+
+    {
+        path:'**',
+        component:NopagefoundComponent
+    }
 ]
 
 export const app_routes = RouterModule.forRoot(appRoutes)

@@ -1,0 +1,18 @@
+<app-navbar></app-navbar>
+<div class="container">
+    <mat-form-field>
+        <input matInput placeholder="Buscar" >
+    </mat-form-field>
+    <h4 class="title">Detalle de Usuarios</h4>
+    <nav mat-tab-nav-bar>
+        <a mat-tab-link
+            *ngFor="let link of navLinks"
+            [routerLink]="link.link"
+            routerLinkActive #rla="routerLinkActive"
+            [active]="rla.isActive">
+            {{link.label}}
+        </a>
+    </nav>
+    <router-outlet></router-outlet>
+</div>
+  

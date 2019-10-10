@@ -1,48 +1,38 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { PagesModule } from './pages/pages.module';
+import { HttpClientModule } from '@angular/common/http';
 // Rutas de la app
 import { app_routes } from "./app.routes";
 
-import { AppComponent } from './app.component';
-import { MaterialModule } from './material.module';
 import { FormsService } from './services/forms/forms.service';
-import { HttpClientModule } from '@angular/common/http';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { TabsComponent } from './components/tabs/tabs.component';
-import { SearchComponent } from './components/search/search.component';
-import { FormsComponent } from './pages/forms/forms.component';
-import { RegisterComponent } from './pages/register/register.component';
-import { AppRoutingModule } from './app-routing.module';
+
+import { AppComponent } from './app.component';
 import { PagesComponent } from './pages/pages.component';
-import { LoginComponent } from './pages/login/login.component';
-import { NopagefoundComponent } from './pages/nopagefound/nopagefound.component';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { LoginComponent } from './login/login.component';
+import { ComponentsModule } from './components/components.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MaterialModule } from './material.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent,
-    TabsComponent,
-    SearchComponent,
-    FormsComponent,
-    RegisterComponent,
     PagesComponent,
     LoginComponent,
-    NopagefoundComponent
   ],
   imports: [
     BrowserModule,
-    MaterialModule,
     HttpClientModule,
-    AppRoutingModule,
     app_routes,
-    FormsModule,
-    ReactiveFormsModule,    
+    PagesModule,
+    ComponentsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    MaterialModule
   ],
   providers: [
     FormsService
-    // LoginGuard
   ],
   bootstrap: [AppComponent]
 })

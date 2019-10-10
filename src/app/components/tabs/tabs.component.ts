@@ -13,13 +13,13 @@ export class TabsComponent implements OnInit {
   constructor(private router: Router){
     this.navLinks = [
       {
-          label: 'FORMULARIOS',
-          link: '/formularios',
-          index: 0
+        label: 'FORMULARIOS',
+        link: '/formularios',
+        index: 0
       }, {
-          label: 'REGISTROS',
-          link: '/registros',
-          index: 1
+        label: 'REGISTROS',
+        link: '/registros',
+        index: 1
       } 
   ];
   }

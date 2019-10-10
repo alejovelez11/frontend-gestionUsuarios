@@ -9,3 +9,8 @@ table{
 tr{
     height: 57px!important;
 }
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+    margin: 20px 0;
+}

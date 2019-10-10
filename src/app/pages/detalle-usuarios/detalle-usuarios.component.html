@@ -1,0 +1,16 @@
+<!-- <mat-card *ngFor="let usuarios of inicioService.usuarios">{{usuarios.nombre_completo_usuario}}</mat-card> -->
+
+<mat-accordion *ngFor="let usuarios of inicioService.usuarios">
+    <mat-expansion-panel (opened)="panelOpenState = true"
+                         (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+            {{usuarios.nombre_completo_usuario}}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p><span class="label">Login:</span> {{usuarios.login}}</p>
+      <p><span class="label">Cédula:</span> {{usuarios.cedula}}</p>
+      <p><span class="label">Correo:</span> {{usuarios.correo}}</p>
+      <p><span class="label">Permiso:</span> {{usuarios.permiso}}</p>
+    </mat-expansion-panel>
+  </mat-accordion>

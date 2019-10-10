@@ -2,19 +2,15 @@
     <img src="assets/img/logo.png" alt="" class="logo">
     <div class="container-name">
         <img src="assets/img/user.svg" alt="" class="avatar">
-        <span class="name">Alejandro Velez Grajales</span>
-        <button mat-icon-button aria-label="Example icon-button with a menu">
+        
+        <span class="name">{{ name.data.nombre }}</span>
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" class="buttonSalir">
             <mat-icon>keyboard_arrow_down</mat-icon>
         </button>
-        <mat-menu>
-            <button mat-menu-item>
-                <span>Redial</span>
-            </button>
-            <button mat-menu-item disabled>
-                <span>Check voice mail</span>
-            </button>
-            <button mat-menu-item>
-                <span>Disable alerts</span>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="salir()" class="buttonSalir">
+              <mat-icon>exit_to_app</mat-icon>
+              <span>Cerrar sesión</span>
             </button>
         </mat-menu>
     </div>

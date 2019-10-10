@@ -7,7 +7,7 @@
     padding: 10px;
 }
 .logo{
-    width: 80px;
+    width: 70px;
 }
 .avatar{
     margin-right: 9px;
@@ -19,4 +19,7 @@
 }
 .name{
     font-size: 14px;
+}
+.buttonSalir{
+    outline: 0;
 }

@@ -6,10 +6,13 @@ import { URL_SERVICIOS } from 'src/app/config/config';
   providedIn: 'root'
 })
 export class FormsService {
-
+  urlServicio = URL_SERVICIOS
   constructor(private http:HttpClient) {}
   getForms(){
-    let url = `${URL_SERVICIOS}forms`
+    let url = `${this.urlServicio}forms`
     return this.http.get(url)
+  }
+  insertFormsXusers(data){
+    return this.http.post(`${this.urlServicio}setformsxusers`, data)
   }
 }

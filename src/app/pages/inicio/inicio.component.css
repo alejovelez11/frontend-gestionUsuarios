@@ -1,0 +1,19 @@
+.flex{
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+    margin: 20px 0;
+}
+
+table{
+    width: 100%;
+}
+
+tr{
+    height: 57px!important;
+}
