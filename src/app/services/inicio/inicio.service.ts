@@ -40,4 +40,10 @@ export class InicioService {
     let url = `${this.url}actualizar`
     return this.http.put(url, data)
   }
+
+  cargarDataGestion(id:number){
+    let url = `${this.url}cargarGestion`
+    return this.http.post(url, {id: id})
+    
+  }
 }

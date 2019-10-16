@@ -44,14 +44,18 @@
             </ng-container>
             <ng-container matColumnDef="Estado">
                 <th mat-header-cell *matHeaderCellDef> Estado </th>
-                <td mat-cell *matCellDef="let element"> 
-                    {{element.estado}}
+                <td mat-cell 
+                    *matCellDef="let element"> 
+                    <mat-chip-list>
+                        <mat-chip [color]="element.estado === 'Gestionado' ? 'primary' : 'accent'" selected>{{element.estado}}</mat-chip>
+                    </mat-chip-list>
+
                 </td>
             </ng-container>
             <ng-container matColumnDef="Acciones">
                 <th mat-header-cell *matHeaderCellDef> Acciones </th>
                 <td mat-cell *matCellDef="let element"> 
-                    <button mat-stroked-button color="warn" [routerLink]="['/detalle_registro', element.id, 'detalle_formularios']">Ver detalle</button>
+                    <button mat-stroked-button color="primary" [routerLink]="['/detalle_registro', element.id, 'detalle_formularios']">Ver detalle</button>
                 </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

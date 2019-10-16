@@ -6,10 +6,8 @@
                 {{analista.Opcion}}
             </mat-option>
         </mat-select>
-         <mat-error *ngIf="form.errors?.required"> 
-            Analista inválido
-        </mat-error>
     </mat-form-field>
+    
     <mat-form-field>
         <mat-label>Estado</mat-label>
         <mat-select formControlName="estado" name="estado">
@@ -17,9 +15,6 @@
                 {{opcion.Opcion}}
             </mat-option>
         </mat-select>
-         <mat-error *ngIf="form.errors?.required"> 
-            Estado inválido
-        </mat-error>
     </mat-form-field>
 
     <mat-form-field>

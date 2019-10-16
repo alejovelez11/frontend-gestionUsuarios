@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { InicioService } from 'src/app/services/inicio/inicio.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DetalleRegistroComponent } from '../detalle-registro/detalle-registro.component';
 import Swal from 'sweetalert2';
 
@@ -14,11 +14,13 @@ export class GestionComponent implements OnInit {
   analistas:any[]
   opciones:any[]
   form:FormGroup
-  constructor(public inicioService:InicioService, public rutaActiva: ActivatedRoute, public detalleRegistroComponent: DetalleRegistroComponent) { }
+  dataGestion:any[] = []
+  constructor(public inicioService:InicioService, public router: Router, public detalleRegistroComponent: DetalleRegistroComponent) { }
 
   ngOnInit() {
     this.cargarAnalistas()
     this.cargarEstados()
+    this.cargarDataGestion()
     this.form = new FormGroup({
       analista: new FormControl(null, Validators.required),
       estado: new FormControl(null, Validators.required),
@@ -35,8 +37,13 @@ export class GestionComponent implements OnInit {
       this.opciones = opciones
     })
   }
-  cargarData(){
-
+  cargarDataGestion(){
+    this.inicioService.cargarDataGestion(this.detalleRegistroComponent.idParam).subscribe((res:any)=>{
+      this.dataGestion = res;
+      this.form.get('analista').setValue(this.dataGestion[0].analista_asignado);
+      this.form.get('estado').setValue(this.dataGestion[0].estado);
+      this.form.get('observacion').setValue(this.dataGestion[0].observacion);
+    })
   }
   guardar(){
     const dataActualizar = {
@@ -51,6 +58,7 @@ export class GestionComponent implements OnInit {
         type: 'success',
         confirmButtonText: 'Aceptar'
       })
+      this.router.navigate(['/inicio'])
     })
   }
 }
