@@ -8,7 +8,7 @@
         <td mat-cell *matCellDef="let row">
             <mat-checkbox   value="{{row.nombre_tabla_usuarios}}"
                             (change)="getValue($event)"
-                            [checked]="formularios.includes(row.nombre_tabla_usuarios)">
+                            [checked]="form.includes(row.nombre_tabla_usuarios)">
             </mat-checkbox>
         </td>
     </ng-container>

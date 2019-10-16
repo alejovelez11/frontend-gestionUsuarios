@@ -3,7 +3,7 @@
     <div class="container-name">
         <img src="assets/img/user.svg" alt="" class="avatar">
         
-        <span class="name">{{ name.data.nombre }}</span>
+        <span class="name" *ngIf="name">{{ name.data.nombre }}</span>
         <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" class="buttonSalir">
             <mat-icon>keyboard_arrow_down</mat-icon>
         </button>

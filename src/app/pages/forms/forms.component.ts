@@ -11,10 +11,10 @@ import { Router } from '@angular/router';
 export class FormsComponent implements OnInit {
 
   displayedColumns: string[] = ['select', 'nombre'];
-  dataSource;
-  formularios = [];
-  loading:boolean
-  
+  dataSource:any[];
+  formularios:object[] = [];
+  loading:boolean;
+  form:any[]
   constructor(private service:FormsService, public usuariosService:UsuariosService, public router:Router){}
   
   ngOnInit() {
@@ -22,25 +22,32 @@ export class FormsComponent implements OnInit {
     this.usuariosService.leerToken()
     if (!this.usuariosService.estaAutenticado()) {
       this.router.navigate(['/login'])
+      return
     }
     this.service.getForms().subscribe((res:any) => {
       this.dataSource = res;
       this.loading = false
-      }
+    }
     )
     if (!localStorage.getItem("formularios")) {
       localStorage.setItem("formularios",JSON.stringify([]))
+      this.form = []
     } else {
       this.formularios = JSON.parse(localStorage.getItem("formularios"))
+      this.form = this.formularios.map((r:any) => r.formulario)
     }
+    
   }
-
+  
   getValue(event){
     if (event.checked) {
-      this.formularios.push(event.source.value);
+      let objetoSeleccionado = this.dataSource.filter(r => r.nombre_tabla_usuarios == event.source.value)
+      let objetoTranformado = objetoSeleccionado.map(r=> ({id:r.id, formulario:r.nombre_tabla_usuarios}))
+      this.formularios.push(objetoTranformado[0]);
       localStorage.setItem("formularios", JSON.stringify(this.formularios))
+
     } else {
-      let toRemove = this.formularios.findIndex(form => form === event.source.value)
+      let toRemove = this.formularios.findIndex((form:any) => form.formulario == event.source.value)
       this.formularios.splice(toRemove, 1)
       localStorage.setItem("formularios", JSON.stringify(this.formularios))
     }

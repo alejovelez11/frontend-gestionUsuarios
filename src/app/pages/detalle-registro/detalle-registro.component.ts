@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InicioService } from 'src/app/services/inicio/inicio.service';
 import { map } from "rxjs/operators";
+import { UsuariosService } from 'src/app/services/usuarios/usuarios.service';
 
 
 @Component({
@@ -14,7 +15,7 @@ export class DetalleRegistroComponent implements OnInit {
   navLinks: any[];
   activeLinkIndex = -1; 
 
-  constructor(public rutaActiva: ActivatedRoute, private router: Router, public inicioService:InicioService) {
+  constructor(public rutaActiva: ActivatedRoute, private router: Router, public inicioService:InicioService, public userService:UsuariosService) {
     this.navLinks = [
       {
         label: 'FORMULARIOS',
@@ -24,19 +25,26 @@ export class DetalleRegistroComponent implements OnInit {
         label: 'USUARIOS',
         link: 'detalle_usuarios',
         index: 1
+      },{
+        label: 'GESTIÓN',
+        link: 'gestion',
+        index: 2
       } 
   ];
   }
 
   ngOnInit() {
+    this.userService.leerToken()
+    if (!this.userService.estaAutenticado()) {
+      this.router.navigate(['/login'])
+      return
+    }
     this.router.events.subscribe((res) => {
       this.activeLinkIndex = this.navLinks.indexOf(this.navLinks.find(tab => tab.link === '.' + this.router.url));
     });
 
-    this.idParam = this.rutaActiva.snapshot.params.id;
-    console.log(this.idParam);
-    
-    this.inicioService.getDetailsXuser(this.idParam).then(r=> console.log(r));
+    this.idParam = this.rutaActiva.snapshot.params.id;    
+    this.inicioService.getDetailsXuser(this.idParam);
     
   
   }

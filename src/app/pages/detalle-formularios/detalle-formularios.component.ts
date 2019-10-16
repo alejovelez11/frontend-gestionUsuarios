@@ -15,7 +15,7 @@ export class DetalleFormulariosComponent implements OnInit {
   }
 
   ngOnInit() {
-     
+       
   }
 
 }

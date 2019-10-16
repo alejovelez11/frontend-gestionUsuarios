@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { InicioService } from 'src/app/services/inicio/inicio.service';
 import { UsuariosService } from 'src/app/services/usuarios/usuarios.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-inicio',
@@ -12,13 +13,16 @@ export class InicioComponent implements OnInit {
   dataSource;
   formularios = [];
   login:any
-  constructor(public inicioService:InicioService, public userService:UsuariosService) { }
+  constructor(public inicioService:InicioService, public userService:UsuariosService, public router:Router) { }
 
   ngOnInit() {
+    this.userService.leerToken()
+    if (!this.userService.estaAutenticado()) {
+      this.router.navigate(['/login'])
+      return
+    }
     this.login = this.userService.decodeToken()
     this.inicioService.getInfoXuser(this.login.data.login).subscribe(res=>{
-      console.log(res);
-      
       this.dataSource = res
     })
   }

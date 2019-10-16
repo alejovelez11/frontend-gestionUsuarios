@@ -27,6 +27,7 @@ export class RegisterComponent implements OnInit {
     this.usuariosService.leerToken()
     if (!this.usuariosService.estaAutenticado()) {
       this.router.navigate(['/login'])
+      return
     }
 
     this.breakpoint = (window.innerWidth <= 700) ? 1 : 5;
@@ -44,49 +45,71 @@ export class RegisterComponent implements OnInit {
   }
 
   register(form){
-    if (!form.valid) {
-      Swal.fire({
-        text: "Los campos no pueden quedar vacios",
-        type: 'error',
-        confirmButtonText: 'Aceptar'
-      })
-    } else if (JSON.parse(localStorage.getItem("formularios")).length === 0){
-      Swal.fire({
-        text: "Debes seleccionar al menos un formulario",
-        type: 'error',
-        confirmButtonText: 'Aceptar'
-      })
-    } else {
-      localStorage.setItem("registros", JSON.stringify(this.registerArray))
+
+    localStorage.setItem("registros", JSON.stringify(this.registerArray))
       let formularios = JSON.parse(localStorage.getItem("formularios"))
       let registros = JSON.parse(localStorage.getItem("registros"))
 
-      let formsAndRegisters = {
+      const formsAndRegisters = {
         formularios,
-        registros
+        registros,
+        usuario_solictante: this.usuariosService.decodeToken().data
       }
-      this.service.insertFormsXusers(formsAndRegisters).subscribe((res:any) => {
-        Swal.fire({
-          text: res,
-          type: 'success',
-          confirmButtonText: 'Aceptar'
-        })
-      }, err => {
-        Swal.fire({
-          text: "Hubo un error, no se pudo registrar",
-          type: 'error',
-          confirmButtonText: 'Aceptar'
-        })
-        localStorage.setItem("formularios", JSON.stringify([]))
-        localStorage.setItem("registros", JSON.stringify([{
-          fullName:'',
-          login:'',
-          identification:'',
-          email:'',
-          profile:''
-        }]))
-      })
-    }
+      
+      // ===========================================================================
+      // datos de los formularios la info de las personas y la persona solicitante
+        console.log(formsAndRegisters);
+      // ===========================================================================
+
+      // datos del usuario solicitante o el que esta actualmente logueado
+      // console.log(this.usuariosService.decodeToken().data);
+    
+
+
+
+    // if (!form.valid) {
+    //   Swal.fire({
+    //     text: "Los campos no pueden quedar vacios",
+    //     type: 'error',
+    //     confirmButtonText: 'Aceptar'
+    //   })
+    // } else if (JSON.parse(localStorage.getItem("formularios")).length === 0){
+    //   Swal.fire({
+    //     text: "Debes seleccionar al menos un formulario",
+    //     type: 'error',
+    //     confirmButtonText: 'Aceptar'
+    //   })
+    // } else {
+    //   localStorage.setItem("registros", JSON.stringify(this.registerArray))
+    //   let formularios = JSON.parse(localStorage.getItem("formularios"))
+    //   let registros = JSON.parse(localStorage.getItem("registros"))
+
+    //   let formsAndRegisters = {
+    //     formularios,
+    //     registros
+    //   }
+    //   this.service.insertFormsXusers(formsAndRegisters).subscribe((res:any) => {
+    //     Swal.fire({
+    //       text: res,
+    //       type: 'success',
+    //       confirmButtonText: 'Aceptar'
+    //     })
+    //   }, err => {
+    //     Swal.fire({
+    //       text: "Hubo un error, no se pudo registrar",
+    //       type: 'error',
+    //       confirmButtonText: 'Aceptar'
+    //     })
+    //     localStorage.setItem("formularios", JSON.stringify([]))
+    //     localStorage.setItem("registros", JSON.stringify([{
+    //       fullName:'',
+    //       login:'',
+    //       identification:'',
+    //       email:'',
+    //       profile:''
+    //     }]))
+    //   })
+    // }
   }
  
   onResize(event) {

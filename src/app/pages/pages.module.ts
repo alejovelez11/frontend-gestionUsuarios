@@ -11,6 +11,7 @@ import { InicioComponent } from './inicio/inicio.component';
 import { DetalleRegistroComponent } from './detalle-registro/detalle-registro.component';
 import { DetalleUsuariosComponent } from './detalle-usuarios/detalle-usuarios.component';
 import { DetalleFormulariosComponent } from './detalle-formularios/detalle-formularios.component';
+import { GestionComponent } from './gestion/gestion.component';
 
 
 
@@ -23,7 +24,8 @@ import { DetalleFormulariosComponent } from './detalle-formularios/detalle-formu
     DetalleRegistroComponent,
     DetalleUsuariosComponent,
     DetalleFormulariosComponent,
-    DetalleFormulariosComponent
+    DetalleFormulariosComponent,
+    GestionComponent
   ],
   exports: [
     FormsComponent,
