@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsService } from 'src/app/services/forms/forms.service';
 import { UsuariosService } from 'src/app/services/usuarios/usuarios.service';
 import { Router } from '@angular/router';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
 
 @Component({
   selector: 'app-forms',
@@ -11,10 +12,14 @@ import { Router } from '@angular/router';
 export class FormsComponent implements OnInit {
 
   displayedColumns: string[] = ['select', 'nombre'];
-  dataSource:any[];
+  dataSource:MatTableDataSource<any>
   formularios:object[] = [];
   loading:boolean;
   form:any[]
+  searchKey:string
+
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+
   constructor(private service:FormsService, public usuariosService:UsuariosService, public router:Router){}
   
   ngOnInit() {
@@ -25,8 +30,9 @@ export class FormsComponent implements OnInit {
       return
     }
     this.service.getForms().subscribe((res:any) => {
-      this.dataSource = res;
-      this.loading = false
+      this.dataSource = new MatTableDataSource(res);
+      this.dataSource.paginator = this.paginator
+      this.loading = false      
     }
     )
     if (!localStorage.getItem("formularios")) {
@@ -41,7 +47,7 @@ export class FormsComponent implements OnInit {
   
   getValue(event){
     if (event.checked) {
-      let objetoSeleccionado = this.dataSource.filter(r => r.nombre_tabla_usuarios == event.source.value)
+      let objetoSeleccionado = this.dataSource.filteredData.filter(r => r.nombre_tabla_usuarios == event.source.value)
       let objetoTranformado = objetoSeleccionado.map(r=> ({id:r.id, formulario:r.nombre_tabla_usuarios}))
       this.formularios.push(objetoTranformado[0]);
       localStorage.setItem("formularios", JSON.stringify(this.formularios))
@@ -52,8 +58,13 @@ export class FormsComponent implements OnInit {
       localStorage.setItem("formularios", JSON.stringify(this.formularios))
     }
   }
-  applyFilter(filterValue: string) {
-    // this.infoArray.filter = filterValue.trim().toLowerCase();
+  onsearchKey(){
+    this.searchKey = ""
+    this.applyFilter()
+  }
+  applyFilter(){
+    console.log(this.dataSource);
+    this.dataSource.filter = this.searchKey.trim().toLowerCase()
   }
   // private sub: any; ngOnInit() { this.sub = this.route.params.subscribe(params => { let id = +params['id']; // (+) converts string 'id' to a number this.service.getHero(id).then(hero => this.hero = hero); }); } ngOnDestroy() { this.sub.unsubscribe(); } 
   

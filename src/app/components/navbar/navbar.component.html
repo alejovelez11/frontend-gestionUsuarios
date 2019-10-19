@@ -1,8 +1,12 @@
 <mat-toolbar class="navbar">
-    <img src="assets/img/logo.png" alt="" class="logo">
+    <div>
+        <img src="assets/img/logo.png" alt="" class="logo">
+        <button mat-button routerLink="/inicio">Inicio</button>
+        <button mat-button routerLink="/formularios">Formularios</button>
+        <button mat-button routerLink="/registros">Registros</button>
+    </div>
     <div class="container-name">
         <img src="assets/img/user.svg" alt="" class="avatar">
-        
         <span class="name" *ngIf="name">{{ name.data.nombre }}</span>
         <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" class="buttonSalir">
             <mat-icon>keyboard_arrow_down</mat-icon>

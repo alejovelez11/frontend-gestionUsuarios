@@ -14,23 +14,39 @@ export class DetalleRegistroComponent implements OnInit {
   idParam:number
   navLinks: any[];
   activeLinkIndex = -1; 
-
   constructor(public rutaActiva: ActivatedRoute, private router: Router, public inicioService:InicioService, public userService:UsuariosService) {
-    this.navLinks = [
-      {
-        label: 'FORMULARIOS',
-        link: 'detalle_formularios',
-        index: 0
-      }, {
-        label: 'USUARIOS',
-        link: 'detalle_usuarios',
-        index: 1
-      },{
-        label: 'GESTIÓN',
-        link: 'gestion',
-        index: 2
-      } 
-  ];
+    // si el perfil que trae de la BD es igual a -1 muestreme este menu 
+    if(parseInt(this.userService.decodeToken().data.perfil) === -1){
+      this.navLinks = [
+        {
+          label: 'FORMULARIOS',
+          link: 'detalle_formularios',
+          index: 0
+        }, {
+          label: 'USUARIOS',
+          link: 'detalle_usuarios',
+          index: 1
+        },{
+          label: 'GESTIÓN',
+          link: 'gestion',
+          index: 2
+        } 
+    ]
+  }else{
+    // si no este
+      this.navLinks = [
+        {
+          label: 'FORMULARIOS',
+          link: 'detalle_formularios',
+          index: 0
+        }, {
+          label: 'USUARIOS',
+          link: 'detalle_usuarios',
+          index: 1
+        }
+    ];
+  }
+    
   }
 
   ngOnInit() {
