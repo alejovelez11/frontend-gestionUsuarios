@@ -13,3 +13,11 @@
     margin-right: auto;
     margin-left: auto;
 }
+
+mat-paginator{
+    margin-bottom: 35px;
+}
+.sin_asignar{
+    color:#6c757dce;
+    font-style: italic;
+}

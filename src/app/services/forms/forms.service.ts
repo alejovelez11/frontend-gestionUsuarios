@@ -12,7 +12,11 @@ export class FormsService {
     let url = `${this.urlServicio}forms`
     return this.http.get(url)
   }
-  insertFormsXusers(data){
-    return this.http.post(`${this.urlServicio}setformsxusers`, data)
+  // insertUsersXforms(data){
+  //   return this.http.post(`${this.urlServicio}setuserxforms`, data)
+  // }
+
+  insertRequestsOfUsers(data){    
+    return this.http.post(`${this.urlServicio}requests_users`, data)
   }
 }

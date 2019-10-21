@@ -26,7 +26,7 @@ export class InicioComponent implements OnInit {
       return
     }
     this.login = this.userService.decodeToken()    
-    this.inicioService.getInfoXuser(this.login.data.login).subscribe((res:any)=>{
+    this.inicioService.getInfoXuser(this.login.data.login).subscribe((res:any)=>{      
       this.dataSource = new MatTableDataSource(res);
       this.dataSource.paginator = this.paginator
       this.dataSource.sort = this.sort

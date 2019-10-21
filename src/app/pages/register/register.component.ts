@@ -21,7 +21,7 @@ export class RegisterComponent implements OnInit {
     profile:''
   }]
   
-  constructor(public service:FormsService, public usuariosService:UsuariosService, public router:Router) { }
+  constructor(public formsService:FormsService, public usuariosService:UsuariosService, public router:Router) { }
 
   ngOnInit() {
     this.usuariosService.leerToken()
@@ -45,8 +45,23 @@ export class RegisterComponent implements OnInit {
   }
 
   register(form){
-
-    localStorage.setItem("registros", JSON.stringify(this.registerArray))
+    if (!form.valid) {
+      // Validaciones
+      Swal.fire({
+        text: "Los campos no pueden quedar vacios",
+        type: 'error',
+        confirmButtonText: 'Aceptar'
+      })
+      return
+    } else if (JSON.parse(localStorage.getItem("formularios")).length === 0){
+      Swal.fire({
+        text: "Debes seleccionar al menos un formulario",
+        type: 'error',
+        confirmButtonText: 'Aceptar'
+      })
+      return
+    } else {
+      localStorage.setItem("registros", JSON.stringify(this.registerArray))
       let formularios = JSON.parse(localStorage.getItem("formularios"))
       let registros = JSON.parse(localStorage.getItem("registros"))
 
@@ -54,16 +69,63 @@ export class RegisterComponent implements OnInit {
         formularios,
         registros,
         usuario_solictante: this.usuariosService.decodeToken().data
-      }
-      
-      // ===========================================================================
-      // datos de los formularios la info de las personas y la persona solicitante
-        console.log(formsAndRegisters);
-      // ===========================================================================
+      }      
+      // Posteo de la información
+      this.formsService.insertRequestsOfUsers(JSON.stringify(formsAndRegisters)).subscribe((res:any) => {
+        // muestro una alerta
+        Swal.fire({
+          text: res["message"],
+          type: 'success',
+          confirmButtonText: 'Aceptar'
+        })
+        // redirecciono al login
+        this.router.navigate(['/inicio'])
+        // Seteo el localStorage
+        localStorage.setItem("formularios", JSON.stringify([]))
+        localStorage.setItem("registros", JSON.stringify([{
+          fullName:'',
+          login:'',
+          identification:'',
+          email:'',
+          profile:''
+        }]))
+        
+      }, err => {        
+        // Si hubo un error en lado del servidor lo muestro
+        Swal.fire({
+          text: "Hubo un error, no se pudo registrar",
+          type: 'error',
+          confirmButtonText: 'Aceptar'
+        })
+        // Seteo el localStorage 
+        localStorage.setItem("formularios", JSON.stringify([]))
+        localStorage.setItem("registros", JSON.stringify([{
+          fullName:'',
+          login:'',
+          identification:'',
+          email:'',
+          profile:''
+        }]))
+      })
+    }
 
-      // datos del usuario solicitante o el que esta actualmente logueado
-      // console.log(this.usuariosService.decodeToken().data);
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -88,7 +150,7 @@ export class RegisterComponent implements OnInit {
     //     formularios,
     //     registros
     //   }
-    //   this.service.insertFormsXusers(formsAndRegisters).subscribe((res:any) => {
+    //   this.service.insertUsersXforms(formsAndRegisters).subscribe((res:any) => {
     //     Swal.fire({
     //       text: res,
     //       type: 'success',

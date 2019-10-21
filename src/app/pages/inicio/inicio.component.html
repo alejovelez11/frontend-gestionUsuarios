@@ -12,66 +12,69 @@
             Registrar Usuarios
         </button>
     </div>
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>  
-            <ng-container matColumnDef="Id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
-                <td mat-cell *matCellDef="let element"> 
-                    {{element.id}}
-                </td>
-            </ng-container>
-            <ng-container matColumnDef="Nombre Solicitante">
-                <th mat-header-cell *matHeaderCellDef> Nombre Solicitante </th>
-                <td mat-cell *matCellDef="let element"> 
-                    {{element.nombre_solicitante}}
-                </td>
-            </ng-container>
-            <ng-container matColumnDef="Analista Asigando">
-                <th mat-header-cell *matHeaderCellDef> Analista Asigando </th>
-                <td mat-cell *matCellDef="let element"> 
-                    {{element.analista_asignado}}
-                </td>
-            </ng-container>
-            <ng-container matColumnDef="Fecha de Solicitud">
-                <th mat-header-cell *matHeaderCellDef> Fecha de Solicitud </th>
-                <td mat-cell *matCellDef="let element"> 
-                    {{element.fecha_solicitud}}
-                </td>
-            </ng-container>
-            <ng-container matColumnDef="Fecha de Gestión">
-                <th mat-header-cell *matHeaderCellDef> Fecha de Gestión </th>
-                <td mat-cell *matCellDef="let element"> 
-                    {{element.fecha_gestion}}
-                </td>
-            </ng-container>
-            <ng-container matColumnDef="Estado">
-                <th mat-header-cell *matHeaderCellDef> Estado </th>
-                <td mat-cell 
-                    *matCellDef="let element"> 
-                    <mat-chip-list>
-                        <mat-chip [color]="element.estado === 'Gestionado' ? 'primary' : 'accent'" selected>
-                            {{element.estado}}
-                             <i *ngIf="element.estado === 'Gestionado'" class="material-icons">
-                                done
-                            </i>
-                        </mat-chip>
-                    </mat-chip-list>
-                </td>
-            </ng-container>
-            <ng-container matColumnDef="Acciones">
-                <th mat-header-cell *matHeaderCellDef> Acciones </th>
-                <td mat-cell *matCellDef="let element"> 
-                    <button mat-stroked-button color="primary" [routerLink]="['/detalle_registro', element.id, 'detalle_formularios']">Ver detalle</button>
-                </td>
-            </ng-container>
-            <ng-container matColumnDef="loading">
-                <td mat-footer-cell *matFooterCellDef colspan="7"> Cargando datos... </td>
-            </ng-container>
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            <tr mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide': dataSource!=null}" ></tr>
-        </table>
-        <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
-
-        
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>  
+        <ng-container matColumnDef="Id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
+            <td mat-cell *matCellDef="let element"> 
+                {{element.id}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="Nombre Solicitante">
+            <th mat-header-cell *matHeaderCellDef> Nombre Solicitante </th>
+            <td mat-cell *matCellDef="let element"> 
+                {{element.nombre_solicitante}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="Analista Asigando">
+            <th mat-header-cell *matHeaderCellDef> Analista Asigando </th>
+            <td mat-cell *matCellDef="let element"> 
+                <span class="sin_asignar" *ngIf="element.analista_asignado === null || element.analista_asignado === '' ">Sin asignar</span>
+                <span *ngIf="element.analista_asignado !== '' || element.analista_asignado !== null">{{element.analista_asignado}}</span>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="Fecha de Solicitud">
+            <th mat-header-cell *matHeaderCellDef> Fecha de Solicitud </th>
+            <td mat-cell *matCellDef="let element"> 
+                {{element.fecha_solicitud}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="Fecha de Gestión">
+            <th mat-header-cell *matHeaderCellDef> Fecha de Gestión </th>
+            <td mat-cell *matCellDef="let element"> 
+                    <span class="sin_asignar" *ngIf="element.fecha_gestion === null || element.fecha_gestion === '' ">Sin asignar</span>
+                    <span *ngIf="element.fecha_gestion !== '' || element.fecha_gestion !== null">{{element.fecha_gestion}}</span>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="Estado">
+            <th mat-header-cell *matHeaderCellDef> Estado </th>
+            <td mat-cell 
+                *matCellDef="let element"> 
+                <mat-chip-list [ngSwitch]="element.estado">
+                    <mat-chip *ngSwitchCase="'Gestionado'" color = "primary" selected>
+                        {{element.estado}}
+                    </mat-chip>
+                    <mat-chip *ngSwitchCase="'Cancelado'" color = "warn" selected>
+                        {{element.estado}}
+                    </mat-chip>
+                    <mat-chip *ngSwitchCase="'Abierto'">
+                        {{element.estado}}
+                    </mat-chip>
+                </mat-chip-list>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="Acciones">
+            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+            <td mat-cell *matCellDef="let element"> 
+                <button mat-stroked-button color="primary" [routerLink]="['/detalle_registro', element.id, 'detalle_formularios']">Ver detalle</button>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="loading">
+            <td mat-footer-cell *matFooterCellDef colspan="7"> Cargando datos... </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide': dataSource!=null}" ></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
 </div>
   
