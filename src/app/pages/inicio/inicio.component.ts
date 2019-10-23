@@ -10,7 +10,7 @@ import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
   styleUrls: ['./inicio.component.css']
 })
 export class InicioComponent implements OnInit {
-  displayedColumns: string[] = ['Id', 'Nombre Solicitante', 'Analista Asigando', 'Fecha de Solicitud', 'Fecha de Gestión', 'Estado', 'Acciones'];
+  displayedColumns: string[] = ['id', 'Nombre Solicitante', 'Analista Asigando', 'Fecha de Solicitud', 'Fecha de Gestión', 'Estado', 'Acciones'];
   dataSource:MatTableDataSource<any>
   formularios = [];
   login:any
@@ -25,8 +25,8 @@ export class InicioComponent implements OnInit {
       this.router.navigate(['/login'])
       return
     }
-    this.login = this.userService.decodeToken()    
-    this.inicioService.getInfoXuser(this.login.data.login).subscribe((res:any)=>{      
+    this.login = this.userService.decodeToken()
+    this.inicioService.getInfoXuser(this.login.data.login).subscribe((res:any)=>{
       this.dataSource = new MatTableDataSource(res);
       this.dataSource.paginator = this.paginator
       this.dataSource.sort = this.sort

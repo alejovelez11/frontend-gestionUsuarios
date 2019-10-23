@@ -15,6 +15,7 @@ export class GestionComponent implements OnInit {
   opciones:any[]
   form:FormGroup
   dataGestion:any[] = []
+  opcionEstado:string
   constructor(public inicioService:InicioService, public router: Router, public detalleRegistroComponent: DetalleRegistroComponent) { }
 
   ngOnInit() {
@@ -45,6 +46,10 @@ export class GestionComponent implements OnInit {
       this.form.get('observacion').setValue(this.dataGestion[0].observacion);
     })
   }
+  estadoValue(event){
+    this.opcionEstado = event.value 
+  }
+
   guardar(){
     const dataActualizar = {
       id: this.detalleRegistroComponent.idParam,
@@ -53,12 +58,25 @@ export class GestionComponent implements OnInit {
       observacion: this.form.value.observacion,
     }
     this.inicioService.dataActualizar(dataActualizar).subscribe((res:any) => {
-      Swal.fire({
-        text: res.message,
-        type: 'success',
-        confirmButtonText: 'Aceptar'
-      })
-      this.router.navigate(['/inicio'])
-    })
+      if (this.opcionEstado === "Gestionado") {
+        this.inicioService.aceptarGestion(this.detalleRegistroComponent.idParam).subscribe((res:any)=>{
+          Swal.fire({
+            text: res.message,
+            type: 'success',
+            confirmButtonText: 'Aceptar'
+          })
+          this.router.navigate(['/inicio'])
+        })
+      } else {
+        Swal.fire({
+          text: res.message,
+          type: 'success',
+          confirmButtonText: 'Aceptar'
+        })
+        this.router.navigate(['/inicio'])
+        return
+      }
+    }) 
   }
+
 }

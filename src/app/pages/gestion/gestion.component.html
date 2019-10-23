@@ -10,7 +10,7 @@
     
     <mat-form-field>
         <mat-label>Estado</mat-label>
-        <mat-select formControlName="estado" name="estado">
+        <mat-select (selectionChange)="estadoValue($event)" formControlName="estado" name="estado">
             <mat-option *ngFor="let opcion of opciones" [value]="opcion.Opcion">
                 {{opcion.Opcion}}
             </mat-option>

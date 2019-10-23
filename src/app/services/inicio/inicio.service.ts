@@ -60,6 +60,12 @@ export class InicioService {
   cargarDataGestion(id:number){
     let url = `${this.url}cargarGestion`
     return this.http.post(url, JSON.stringify({id: id}))
+  }
+
+  aceptarGestion(id:number){
+    console.log(id);
     
+    let url = `${this.url}aceptarGestion`
+    return this.http.post(url, JSON.stringify({id: id}))
   }
 }

@@ -21,7 +21,7 @@
         <th mat-header-cell *matHeaderCellDef> Nombre Formulario </th>
         <td mat-cell *matCellDef="let element"> 
             {{element.nombre_proyecto}}
-            <span class="url_form">{{element.url_proyecto}}</span>
+            <a href="{{element.url_proyecto}}" target="_blank" class="url_form">{{element.url_proyecto}}</a>
         </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
