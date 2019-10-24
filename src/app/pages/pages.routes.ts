@@ -10,7 +10,7 @@ const pagesRoutes: Routes = [
         path:'',
         component: PagesComponent,
         children: [
-            {path:'formularios', component: FormsComponent, canActivate:[AuthGuard]},
+            {path:'formularios', component: FormsComponent},
             {path:'registros', component: RegisterComponent},
             {path:'', redirectTo:'/inicio', pathMatch:'full'},
         ]

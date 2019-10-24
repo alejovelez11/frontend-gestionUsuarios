@@ -31,6 +31,7 @@ export class InicioComponent implements OnInit {
       this.dataSource.paginator = this.paginator
       this.dataSource.sort = this.sort
     })
+  
   }
   onsearchKey(){
     this.searchKey = ""
