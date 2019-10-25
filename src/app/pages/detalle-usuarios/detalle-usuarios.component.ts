@@ -7,6 +7,7 @@ import { InicioService } from 'src/app/services/inicio/inicio.service';
   styleUrls: ['./detalle-usuarios.component.css']
 })
 export class DetalleUsuariosComponent implements OnInit {
+  panelOpenState = false;
 
   constructor(public inicioService:InicioService) { }
 

@@ -32,4 +32,4 @@ const appRoutes: Routes = [
     }
 ]
 
-export const app_routes = RouterModule.forRoot(appRoutes)
+export const app_routes = RouterModule.forRoot(appRoutes, { useHash: true })
