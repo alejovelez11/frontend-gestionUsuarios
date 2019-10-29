@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Login } from 'src/app/models/login.model';
 import { URL_SERVICIOS } from 'src/app/config/config';
 
@@ -16,9 +16,14 @@ export class UsuariosService {
   }
 
   loginService(usuario:Login){
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+      })
+    };
     let url = `${ URL_SERVICIOS }login`
     return new Promise((resolve, reject) => {
-      this.http.post(url, usuario).subscribe((resp: any) => {
+      this.http.post(url, JSON.stringify(usuario)).subscribe((resp: any) => {
         if (!resp.error) {
           resolve(resp)
           this.guardarToken(resp["token"])

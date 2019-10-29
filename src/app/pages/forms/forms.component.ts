@@ -17,6 +17,8 @@ export class FormsComponent implements OnInit {
   loading:boolean;
   form:any[]
   searchKey:string
+  isLoading = true;
+
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
@@ -30,11 +32,10 @@ export class FormsComponent implements OnInit {
       return
     }
     this.service.getForms().subscribe((res:any) => {
+      this.isLoading = false;
       this.dataSource = new MatTableDataSource(res);
       this.dataSource.paginator = this.paginator
-      this.loading = false      
-    }
-    )
+    }, error => this.isLoading = false )
     if (!localStorage.getItem("formularios")) {
       localStorage.setItem("formularios",JSON.stringify([]))
       this.form = []
@@ -63,7 +64,6 @@ export class FormsComponent implements OnInit {
     this.applyFilter()
   }
   applyFilter(){
-    console.log(this.dataSource);
     this.dataSource.filter = this.searchKey.trim().toLowerCase()
   }
   // private sub: any; ngOnInit() { this.sub = this.route.params.subscribe(params => { let id = +params['id']; // (+) converts string 'id' to a number this.service.getHero(id).then(hero => this.hero = hero); }); } ngOnDestroy() { this.sub.unsubscribe(); } 

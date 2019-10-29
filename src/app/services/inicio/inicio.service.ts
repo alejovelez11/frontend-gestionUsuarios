@@ -62,9 +62,7 @@ export class InicioService {
     return this.http.post(url, JSON.stringify({id: id}))
   }
 
-  aceptarGestion(id:number){
-    console.log(id);
-    
+  aceptarGestion(id:number){    
     let url = `${this.url}aceptarGestion`
     return this.http.post(url, JSON.stringify({id: id}))
   }

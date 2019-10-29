@@ -68,13 +68,17 @@
                 <button mat-stroked-button color="primary" [routerLink]="['/detalle_registro', element.id, 'detalle_formularios']">Ver detalle</button>
             </td>
         </ng-container>
-        <ng-container matColumnDef="loading">
-            <td mat-footer-cell *matFooterCellDef colspan="7"> Cargando datos... </td>
-        </ng-container>
+
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        <tr mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide': dataSource!=null}" ></tr>
     </table>
+    <mat-card *ngIf="isLoading" 
+        style="display: flex; justify-content: center; align-items: center">
+        <mat-progress-spinner 
+            color="primary" 
+            mode="indeterminate">
+        </mat-progress-spinner>
+    </mat-card>
     <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
 </div>
   

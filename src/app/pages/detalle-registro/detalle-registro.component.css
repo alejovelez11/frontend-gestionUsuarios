@@ -20,3 +20,7 @@ tr{
 .mat-tab-header {
     margin-bottom: 20px;
 }
+
+.mat-tab-link{
+    text-decoration: none;
+}

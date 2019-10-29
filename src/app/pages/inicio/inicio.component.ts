@@ -15,6 +15,8 @@ export class InicioComponent implements OnInit {
   formularios = [];
   login:any
   searchKey:string
+  isLoading = true;
+
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   constructor(public inicioService:InicioService, public userService:UsuariosService, public router:Router) { }
@@ -27,10 +29,11 @@ export class InicioComponent implements OnInit {
     }
     this.login = this.userService.decodeToken()
     this.inicioService.getInfoXuser(this.login.data.login).subscribe((res:any)=>{
+      this.isLoading = false;
       this.dataSource = new MatTableDataSource(res);
       this.dataSource.paginator = this.paginator
-      this.dataSource.sort = this.sort
-    })
+      this.dataSource.sort = this.sort      
+    }, error => this.isLoading = false )
   
   }
   onsearchKey(){
