@@ -19,7 +19,6 @@ export class FormsComponent implements OnInit {
   searchKey:string
   isLoading = true;
 
-
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(private service:FormsService, public usuariosService:UsuariosService, public router:Router){}
@@ -52,7 +51,6 @@ export class FormsComponent implements OnInit {
       let objetoTranformado = objetoSeleccionado.map(r=> ({id:r.id, formulario:r.nombre_tabla_usuarios}))
       this.formularios.push(objetoTranformado[0]);
       localStorage.setItem("formularios", JSON.stringify(this.formularios))
-
     } else {
       let toRemove = this.formularios.findIndex((form:any) => form.formulario == event.source.value)
       this.formularios.splice(toRemove, 1)
@@ -66,6 +64,5 @@ export class FormsComponent implements OnInit {
   applyFilter(){
     this.dataSource.filter = this.searchKey.trim().toLowerCase()
   }
-  // private sub: any; ngOnInit() { this.sub = this.route.params.subscribe(params => { let id = +params['id']; // (+) converts string 'id' to a number this.service.getHero(id).then(hero => this.hero = hero); }); } ngOnDestroy() { this.sub.unsubscribe(); } 
   
 }

@@ -6,6 +6,7 @@ import { DetalleRegistroComponent } from './pages/detalle-registro/detalle-regis
 import { DetalleUsuariosComponent } from './pages/detalle-usuarios/detalle-usuarios.component';
 import { DetalleFormulariosComponent } from './pages/detalle-formularios/detalle-formularios.component';
 import { GestionComponent } from './pages/gestion/gestion.component';
+import { VerificaTokenGuard } from './services/guards/verifica-token.guard';
 
 const appRoutes: Routes = [
     {
@@ -14,15 +15,17 @@ const appRoutes: Routes = [
     },
     {
         path:'inicio',
-         component: InicioComponent
+         component: InicioComponent,
+         canActivate: [VerificaTokenGuard]
     },
     {
         path:'detalle_registro/:id',
-        component: DetalleRegistroComponent,
+        component: DetalleRegistroComponent, 
+        canActivate: [VerificaTokenGuard],
         children: [
-            {path:'detalle_usuarios', component: DetalleUsuariosComponent, data:{titulo:'Usuarios'}},
-            {path:'detalle_formularios', component: DetalleFormulariosComponent, data:{titulo:'Formularios'}},
-            {path:'gestion', component: GestionComponent, data:{titulo:'Gestión'}},
+            {path:'detalle_usuarios', component: DetalleUsuariosComponent, canActivate: [VerificaTokenGuard], data:{titulo:'Usuarios'}},
+            {path:'detalle_formularios', component: DetalleFormulariosComponent, canActivate: [VerificaTokenGuard], data:{titulo:'Formularios'}},
+            {path:'gestion', component: GestionComponent, canActivate: [VerificaTokenGuard], data:{titulo:'Gestión'}},
         ]
     },
 

@@ -5,6 +5,7 @@
     padding: 0;
 }
 
+
 .container {
     max-width: 1100px;
     width: 100%;
@@ -21,4 +22,5 @@ mat-paginator{
     color:#6c757dce;
     font-style: italic;
 }
+
 

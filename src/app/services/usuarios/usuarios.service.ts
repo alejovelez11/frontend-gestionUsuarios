@@ -41,9 +41,6 @@ export class UsuariosService {
   guardarToken(idToken:string){
     this.userToken = idToken
     localStorage.setItem("idToken", idToken)
-    let hoy = new Date()
-    hoy.setSeconds(3600)
-    localStorage.setItem("expira", hoy.getTime().toString())
   }
 
   decodeToken(){

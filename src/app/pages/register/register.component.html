@@ -1,12 +1,13 @@
 <div class="container-register">
     <mat-form-field>
         <mat-label>Numero de registros</mat-label>
-        <input type="number" matInput>
+        <input type="number" matInput #input id="input">
     </mat-form-field>
-    <button mat-stroked-button color="primary">
+    <button mat-stroked-button color="primary" (click)="agregarNumRows(input.value)">
         Agregar fila
     </button>
 </div>
+<div class="flex">
 <form (ngSubmit)="register(form)" #form="ngForm">
     <mat-grid-list *ngFor="let groupForm of registerArray; let i = index" rowHeight="80px" (window:resize)="onResize($event)" [cols]="breakpoint">
         <mat-grid-tile>
@@ -106,14 +107,17 @@
                         <mat-error *ngIf="profile.errors?.required"> 
                             Perfil inválido
                         </mat-error>
-            </mat-form-field>
-        </mat-grid-tile>
-    </mat-grid-list>
-    <button mat-raised-button color="primary" type="submit" class="mt-4">
-        Registrar
-    </button>
-</form>
-
+                    </mat-form-field>
+                </mat-grid-tile>
+                <button mat-button matSuffix mat-icon-button class="button-delete" type="button" (click)="deleteRow(i)">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-grid-list>
+            <button mat-raised-button color="primary" type="submit" class="mt-4">
+                Registrar
+            </button>
+        </form>
+        </div>
 <button mat-fab
         color="primary"
         class="button-plus"

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormsService } from 'src/app/services/forms/forms.service';
 import Swal from 'sweetalert2' 
 import { UsuariosService } from 'src/app/services/usuarios/usuarios.service';
@@ -20,7 +20,8 @@ export class RegisterComponent implements OnInit {
     email:'',
     profile:''
   }]
-  
+  @ViewChild('input', {static: false}) Input: ElementRef;
+
   constructor(public formsService:FormsService, public usuariosService:UsuariosService, public router:Router) { }
 
   ngOnInit() {
@@ -42,6 +43,10 @@ export class RegisterComponent implements OnInit {
     }else{
       this.registerArray = JSON.parse(localStorage.getItem("registros"))
     }
+  }
+  
+  guardarStorageRows(){
+    localStorage.setItem("registros", JSON.stringify(this.registerArray))
   }
 
   register(form){
@@ -108,70 +113,6 @@ export class RegisterComponent implements OnInit {
         }]))
       })
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // if (!form.valid) {
-    //   Swal.fire({
-    //     text: "Los campos no pueden quedar vacios",
-    //     type: 'error',
-    //     confirmButtonText: 'Aceptar'
-    //   })
-    // } else if (JSON.parse(localStorage.getItem("formularios")).length === 0){
-    //   Swal.fire({
-    //     text: "Debes seleccionar al menos un formulario",
-    //     type: 'error',
-    //     confirmButtonText: 'Aceptar'
-    //   })
-    // } else {
-    //   localStorage.setItem("registros", JSON.stringify(this.registerArray))
-    //   let formularios = JSON.parse(localStorage.getItem("formularios"))
-    //   let registros = JSON.parse(localStorage.getItem("registros"))
-
-    //   let formsAndRegisters = {
-    //     formularios,
-    //     registros
-    //   }
-    //   this.service.insertUsersXforms(formsAndRegisters).subscribe((res:any) => {
-    //     Swal.fire({
-    //       text: res,
-    //       type: 'success',
-    //       confirmButtonText: 'Aceptar'
-    //     })
-    //   }, err => {
-    //     Swal.fire({
-    //       text: "Hubo un error, no se pudo registrar",
-    //       type: 'error',
-    //       confirmButtonText: 'Aceptar'
-    //     })
-    //     localStorage.setItem("formularios", JSON.stringify([]))
-    //     localStorage.setItem("registros", JSON.stringify([{
-    //       fullName:'',
-    //       login:'',
-    //       identification:'',
-    //       email:'',
-    //       profile:''
-    //     }]))
-    //   })
-    // }
   }
  
   onResize(event) {
@@ -186,6 +127,26 @@ export class RegisterComponent implements OnInit {
       email:'',
       profile:''
     })
+    this.guardarStorageRows()
+  }
+
+  agregarNumRows(num:Number){
+    for (let index = 1; index <= num; index++){
+      this.registerArray.push({
+        fullName:'',
+        login:'',
+        identification:'',
+        email:'',
+        profile:''
+      })
+    }
+    this.Input.nativeElement.value = ""
+    this.guardarStorageRows()
+  }
+
+  deleteRow(i){
+    this.registerArray.splice(i, 1)
+    this.guardarStorageRows()
   }
   // Poner la primera en mayuscula de la cadena de texto
   maysFirst(string){
