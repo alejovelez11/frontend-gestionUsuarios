@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { URL_SERVICIOS } from 'src/app/config/config';
 
 @Injectable({
@@ -62,8 +62,18 @@ export class InicioService {
     return this.http.post(url, JSON.stringify({id: id}))
   }
 
-  aceptarGestion(id:number){    
+  aceptarGestion(id:number){
     let url = `${this.url}aceptarGestion`
     return this.http.post(url, JSON.stringify({id: id}))
+  }
+
+  cancelarCreacion(id:number){
+    let url = `${this.url}cancelarGestion`
+    return this.http.post(url, JSON.stringify({id: id}))
+  }
+
+  consultarSiestaCancelado(idParam:number){
+    let url = `${this.url}consultarSiestaCancelado`
+    return this.http.post(url, JSON.stringify({id: idParam}))
   }
 }

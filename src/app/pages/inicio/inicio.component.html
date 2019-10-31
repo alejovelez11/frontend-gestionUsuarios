@@ -12,6 +12,13 @@
             Registrar Usuarios
         </button>
     </div>
+    <!-- <div *ngIf="dataSource" class="contentnoRegistros">
+        <h3>Historial de Usuarios</h3>
+        <h6 class="noRegistros">Aún no hay registros</h6>
+        <button class="buttonNoregistros" mat-raised-button color="primary" [routerLink]="['/formularios']">
+            Registrar Usuarios
+        </button>
+    </div> -->
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>  
         <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>

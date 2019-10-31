@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DetalleRegistroComponent } from '../detalle-registro/detalle-registro.component';
 import Swal from 'sweetalert2';
+import { UsuariosService } from 'src/app/services/usuarios/usuarios.service';
 
 @Component({
   selector: 'app-gestion',
@@ -16,7 +17,12 @@ export class GestionComponent implements OnInit {
   form:FormGroup
   dataGestion:any[] = []
   opcionEstado:string
-  constructor(public inicioService:InicioService, public router: Router, public detalleRegistroComponent: DetalleRegistroComponent) { }
+  perfilUsuario:number
+  desabilitarBoton:boolean
+  constructor(public inicioService:InicioService,
+    public router: Router,
+    public detalleRegistroComponent: DetalleRegistroComponent,
+    public userService:UsuariosService) { }
 
   ngOnInit() {
     this.cargarAnalistas()
@@ -26,6 +32,13 @@ export class GestionComponent implements OnInit {
       analista: new FormControl(null, Validators.required),
       estado: new FormControl(null, Validators.required),
       observacion: new FormControl(null)
+    })
+    this.perfilUsuario = parseInt(this.userService.decodeToken().data.perfil)
+    this.consultarSiestaCancelado(this.detalleRegistroComponent.idParam)
+  }
+  consultarSiestaCancelado(idParam:number){
+    this.inicioService.consultarSiestaCancelado(idParam).subscribe((res:boolean)=>{
+      this.desabilitarBoton = res
     })
   }
   cargarAnalistas(){
@@ -43,7 +56,11 @@ export class GestionComponent implements OnInit {
       this.dataGestion = res;
       this.form.get('analista').setValue(this.dataGestion[0].analista_asignado);
       this.form.get('estado').setValue(this.dataGestion[0].estado);
-      this.form.get('observacion').setValue(this.dataGestion[0].observacion);
+      if (this.dataGestion[0].observacion === null && this.perfilUsuario !== -1){
+        this.form.get('observacion').setValue("No hay observaciones");
+      } else {
+        this.form.get('observacion').setValue(this.dataGestion[0].observacion);
+      }
     })
   }
   estadoValue(event){
@@ -79,4 +96,26 @@ export class GestionComponent implements OnInit {
     }) 
   }
 
+  cancelarCreacion(){
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "Se cancelará ésta creación de usuarios",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si'
+    }).then((result) => {
+      if (result.value) {
+        this.inicioService.cancelarCreacion(this.detalleRegistroComponent.idParam).subscribe((res:any)=>{
+          Swal.fire(
+            'Cancelado!',
+            'Se cancelaron la creación de usuarios',
+            'success'
+          )
+          this.router.navigate(['/inicio'])
+        })
+      }
+    })
+  }
 }
