@@ -73,14 +73,6 @@ export class UsuariosService {
   estaAutenticado():any{
       return ( this.userToken.length > 5 ) ? true : false;
   }
-    // const expira = Number(localStorage.getItem("expira"))
-    // const expiraDate = new Date()
-    // expiraDate.setTime(expira)
-    // if (expiraDate > new Date()) {
-    //   return true
-    // }else{
-    //   return false
-    // }
 }
 
 

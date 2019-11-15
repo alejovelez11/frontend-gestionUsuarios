@@ -8,13 +8,11 @@ import { URL_SERVICIOS } from 'src/app/config/config';
 export class FormsService {
   urlServicio = URL_SERVICIOS
   constructor(private http:HttpClient) {}
+  
   getForms(){
     let url = `${this.urlServicio}forms`
     return this.http.get(url)
   }
-  // insertUsersXforms(data){
-  //   return this.http.post(`${this.urlServicio}setuserxforms`, data)
-  // }
 
   insertRequestsOfUsers(data){    
     return this.http.post(`${this.urlServicio}requests_users`, data)

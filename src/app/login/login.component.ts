@@ -2,10 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Login } from 'src/app/models/login.model';
 import { UsuariosService } from 'src/app/services/usuarios/usuarios.service';
-import { Router, ActivatedRoute, NavigationEnd, NavigationStart, NavigationError, Event } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2' 
-import { filter } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login',
