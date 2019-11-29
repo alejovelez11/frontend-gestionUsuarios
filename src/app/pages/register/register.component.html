@@ -19,9 +19,7 @@
                         name = "fullName_{{i}}"
                         [(ngModel)]="groupForm.fullName"
                         required
-                        #fullnames = ngModel
-                        (keyup)="maysFirst($event)"
-                        (change)="removeSpaces($event)">
+                        #fullnames = ngModel>
                         <mat-error *ngIf="fullnames.errors?.required"> 
                             Nombre completo inválido
                         </mat-error> 
@@ -37,9 +35,8 @@
                         name = "login_{{i}}"
                         [(ngModel)]="groupForm.login"
                         #login = ngModel
-                        required
-                        (change)="removeSpaces($event)"
-                        (keyup)="lowerCase($event)">
+                        required>
+                       
                         <mat-error *ngIf="login.errors?.required"> 
                             Login inválido
                         </mat-error> 
@@ -55,9 +52,8 @@
                         name = "identification_{{i}}"
                         [(ngModel)]="groupForm.identification"
                         required
-                        #identification_ = ngModel
-                        (change)="removeSpaces($event)"
-                        (keyup)="lowerCase($event)">
+                        #identification_ = ngModel>
+                       
                         <mat-error *ngIf="identification_.errors?.required"> 
                             Cedula inválida
                         </mat-error>
@@ -73,9 +69,7 @@
                         name = "email_{{i}}"
                         [(ngModel)]="groupForm.email"
                         required
-                        #email = ngModel
-                        (change)="removeSpaces($event)"
-                        (keyup)="lowerCase($event)">
+                        #email = ngModel>
                         <mat-error *ngIf="email.errors?.required"> 
                             Correo inválido
                         </mat-error>
@@ -95,13 +89,7 @@
                                 Asesor
                             </mat-option>
                             <mat-option value="1">
-                                Coordinador
-                            </mat-option>
-                            <mat-option value="2">
                                 Supervisor
-                            </mat-option>
-                            <mat-option value="3">
-                                Gestor Datos
                             </mat-option>
                         </mat-select>
                         <mat-error *ngIf="profile.errors?.required"> 

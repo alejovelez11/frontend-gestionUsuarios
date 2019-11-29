@@ -66,15 +66,23 @@ export class RegisterComponent implements OnInit {
       })
       return
     } else {
+      this.registerArray = this.registerArray.map(obj=>({
+        fullName: this.limpiarCadena("fullName", obj.fullName),
+        login: this.limpiarCadena("login", obj.login),
+        identification: obj.identification,
+        email: this.limpiarCadena("email", obj.email),
+        profile: obj.profile
+      }));
       localStorage.setItem("registros", JSON.stringify(this.registerArray))
       let formularios = JSON.parse(localStorage.getItem("formularios"))
       let registros = JSON.parse(localStorage.getItem("registros"))
-
+ 
       const formsAndRegisters = {
         formularios,
         registros,
         usuario_solictante: this.usuariosService.decodeToken().data
       }      
+    
       // Posteo de la información
       this.formsService.insertRequestsOfUsers(JSON.stringify(formsAndRegisters)).subscribe((res:any) => {
         // muestro una alerta
@@ -114,7 +122,46 @@ export class RegisterComponent implements OnInit {
       })
     }
   }
- 
+  limpiarCadena(propiedad, valor){
+    return this.limpiarCaracteres(propiedad, valor)
+  }
+
+  limpiarCaracteres(propiedad, str){
+    var from = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç", 
+    to   = "AAAAAEEEEIIIIOOOOUUUUaaaaaeeeeiiiioooouuuunncc",
+    mapping = {};
+
+    for(var i = 0, j = from.length; i < j; i++ )
+        mapping[ from.charAt( i ) ] = to.charAt( i );
+    
+        var ret = [];
+        for( var i = 0; i < str.length ; i++ ) {
+            var c = str.charAt( i );
+            if( mapping.hasOwnProperty( str.charAt( i ) ) )
+                ret.push( mapping[ c ] );
+            else
+                ret.push( c );
+        }      
+        if (propiedad == `fullName`) {
+          return this.mayusInicial(ret.join( '' ).replace(/^\s+/, '').replace(/ {2,}/g, ' ')).trim()
+        }else{
+          return ret.join( '' ).toLowerCase().trim()
+        }
+          
+  }
+
+  mayusInicial(string){
+    const re = /(^|[^A-Za-zÁÉÍÓÚÜÑáéíóúüñ])(?:([a-záéíóúüñ])|([A-ZÁÉÍÓÚÜÑ]))|([A-ZÁÉÍÓÚÜÑ]+)/gu;
+      string = string.replace(re, (m, caracterPrevio, minuscInicial, mayuscInicial, mayuscIntermedias) => {
+          const locale = ['es', 'gl', 'ca', 'pt', 'en'];
+          if (mayuscIntermedias)
+              return mayuscIntermedias.toLowerCase(locale)
+          return caracterPrevio + (minuscInicial ? minuscInicial.toLocaleUpperCase(locale) : mayuscInicial)
+      })
+    return string
+  }
+
+
   onResize(event) {
     this.breakpoint = (event.target.innerWidth <= 700) ? 1 : 5;
   }
@@ -148,40 +195,9 @@ export class RegisterComponent implements OnInit {
     this.registerArray.splice(i, 1)
     this.guardarStorageRows()
   }
-  // Poner la primera en mayuscula de la cadena de texto
-  maysFirst(string){
-    const re = /(^|[^A-Za-zÁÉÍÓÚÜÑáéíóúüñ])(?:([a-záéíóúüñ])|([A-ZÁÉÍÓÚÜÑ]))|([A-ZÁÉÍÓÚÜÑ]+)/gu;
-    string.target.value = string.target.value.replace(re, (m, caracterPrevio, minuscInicial, mayuscInicial, mayuscIntermedias) => {
-          const locale = ['es', 'gl', 'ca', 'pt', 'en'];
-          if (mayuscIntermedias)
-              return mayuscIntermedias.toLowerCase(locale)
-          return caracterPrevio + (minuscInicial ? minuscInicial.toLocaleUpperCase(locale) : mayuscInicial)
-    })
-    return string.target.value = this.noTildes(string.target.value)
-  }
-  // Quitar espacios de la cadena de texto
-  removeSpaces(string){
-    string.target.value = string.target.value.replace(/^\s+/, '').replace(/\s+$/, '');
-    string.target.value = string.target.value.replace(/ {2,}/g, ' ')
-    this.saveInStorage()
-  }
 
   saveProfile(){
     this.saveInStorage()
-  }
-
-  lowerCase(string){
-    string.target.value = string.target.value.toLowerCase()
-    return string.target.value = this.noTildes(string.target.value)
-  }
-  // Quitar tildes de la cadena de texto
-  noTildes(string){
-    let acentos = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç";
-    let original = "AAAAAEEEEIIIIOOOOUUUUaaaaaeeeeiiiioooouuuunncc";
-    for (let i = 0; i < acentos.length; i++) {
-        string = string.replace(new RegExp(acentos.charAt(i), 'g'), original.charAt(i));
-    }
-    return string
   }
 
   saveInStorage(){
