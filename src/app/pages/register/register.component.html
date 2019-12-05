@@ -6,6 +6,8 @@
     <button mat-stroked-button color="primary" (click)="agregarNumRows(input.value)">
         Agregar fila
     </button>
+    <label for="file-input">File upload</label>
+    <input #inputfile type="file" name="file-input" (change)="onFileSelected($event)">
 </div>
 <div class="flex">
 <form (ngSubmit)="register(form)" #form="ngForm">

@@ -3,6 +3,7 @@ import { FormsService } from 'src/app/services/forms/forms.service';
 import Swal from 'sweetalert2' 
 import { UsuariosService } from 'src/app/services/usuarios/usuarios.service';
 import { Router } from '@angular/router';
+import * as XLSX from 'xlsx';
 
 
 
@@ -21,6 +22,7 @@ export class RegisterComponent implements OnInit {
     profile:''
   }]
   @ViewChild('input', {static: false}) Input: ElementRef;
+  @ViewChild('inputfile', {static: false}) inputFile: ElementRef;
 
   constructor(public formsService:FormsService, public usuariosService:UsuariosService, public router:Router) { }
 
@@ -49,11 +51,63 @@ export class RegisterComponent implements OnInit {
     localStorage.setItem("registros", JSON.stringify(this.registerArray))
   }
 
+  // Funcion para convertir archivo excel a json
+  onFileSelected(event){
+    let fileUpload = event.target.value
+    let regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
+
+    if (regex.test(fileUpload.toLowerCase())) {
+        if (typeof (FileReader) != "undefined") {
+            let reader = new FileReader();
+            if (reader.readAsBinaryString) {
+                reader.onload = (e:any) => {
+                  this.processExcel(e.target.result)
+                }
+                reader.readAsBinaryString(event.srcElement.files[0]);
+            } else {
+              reader.onload = (e:any) => {
+                let data = "";
+                let bytes = new Uint8Array(e.target.result);
+                for (let i = 0; i < bytes.byteLength; i++) {
+                    data += String.fromCharCode(bytes[i]);
+                }
+                this.processExcel(data);
+              }
+              reader.readAsArrayBuffer(fileUpload.files[0]);
+            }
+        } else {
+          alert("This browser does not support HTML5.");
+        }
+    } else {
+      alert("Please upload a valid Excel file.");
+    }
+    
+  }
+  processExcel(data) {
+    let workbook = XLSX.read(data, {
+      type: 'binary'
+    });
+    
+    let firstSheet = workbook.SheetNames[0];
+    let excelRows = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheet]);
+
+    let registersArrayExcel = excelRows.map((el:any)=>({
+      "fullName": el.Nombre,
+      "login": el.Login,
+      "identification": el.Cedula,
+      "email": el.Correo,
+      "profile": el.Perfil.toString()
+    }));
+    
+    this.registerArray = registersArrayExcel
+    localStorage.setItem("registros", JSON.stringify(registersArrayExcel)) 
+  }
+
   register(form){
-    if (!form.valid) {
+    if (!form.valid && this.inputFile.nativeElement.value == "") {
       // Validaciones
       Swal.fire({
-        text: "Los campos no pueden quedar vacios",
+        text: "Debes copiar los registros o adjuntar un archivo",
         type: 'error',
         confirmButtonText: 'Aceptar'
       })
