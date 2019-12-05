@@ -21,6 +21,7 @@
                         name = "fullName_{{i}}"
                         [(ngModel)]="groupForm.fullName"
                         required
+                        (blur)="saveProfile()"
                         #fullnames = ngModel>
                         <mat-error *ngIf="fullnames.errors?.required"> 
                             Nombre completo inválido
@@ -37,6 +38,7 @@
                         name = "login_{{i}}"
                         [(ngModel)]="groupForm.login"
                         #login = ngModel
+                        (blur)="saveProfile()"
                         required>
                        
                         <mat-error *ngIf="login.errors?.required"> 
@@ -54,6 +56,7 @@
                         name = "identification_{{i}}"
                         [(ngModel)]="groupForm.identification"
                         required
+                        (blur)="saveProfile()"
                         #identification_ = ngModel>
                        
                         <mat-error *ngIf="identification_.errors?.required"> 
@@ -71,8 +74,26 @@
                         name = "email_{{i}}"
                         [(ngModel)]="groupForm.email"
                         required
+                        (blur)="saveProfile()"
                         #email = ngModel>
                         <mat-error *ngIf="email.errors?.required"> 
+                            Correo inválido
+                        </mat-error>
+            </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+            <mat-form-field appearance="fill">
+                <mat-label>Correo Supervisor</mat-label>
+                <input  matInput 
+                        placeholder="Correo Supervisor"
+                        type = "email"
+                        name = "emailSupervisor_{{i}}"
+                        [(ngModel)]="groupForm.emailSupervisor"
+                        required
+                        (blur)="saveProfile()"
+                        #emailSupervisor = ngModel>
+                        <mat-error *ngIf="emailSupervisor.errors?.required"> 
                             Correo inválido
                         </mat-error>
             </mat-form-field>

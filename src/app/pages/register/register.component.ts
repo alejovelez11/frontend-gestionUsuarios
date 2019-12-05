@@ -19,6 +19,7 @@ export class RegisterComponent implements OnInit {
     login:'',
     identification:'',
     email:'',
+    emailSupervisor:'',
     profile:''
   }]
   @ViewChild('input', {static: false}) Input: ElementRef;
@@ -32,14 +33,15 @@ export class RegisterComponent implements OnInit {
       this.router.navigate(['/login'])
       return
     }
-
-    this.breakpoint = (window.innerWidth <= 700) ? 1 : 5;
+    // para ajustar los campos al 100% de la pantalla
+    this.breakpoint = (window.innerWidth <= 700) ? 1 : 6;
     if (!localStorage.getItem("registros") || JSON.parse(localStorage.getItem("registros")).length === 0) {
       localStorage.setItem("registros", JSON.stringify([{
         fullName:'',
         login:'',
         identification:'',
         email:'',
+        emailSupervisor:'',
         profile:''
       }]))
     }else{
@@ -76,11 +78,21 @@ export class RegisterComponent implements OnInit {
               reader.readAsArrayBuffer(fileUpload.files[0]);
             }
         } else {
-          alert("This browser does not support HTML5.");
+          Swal.fire({
+            text: "This browser does not support HTML5",
+            type: 'error',
+            confirmButtonText: 'Aceptar'
+          })
         }
     } else {
-      alert("Please upload a valid Excel file.");
+      Swal.fire({
+        text: "Por favor adjunte un archivo de excel válido",
+        type: 'error',
+        confirmButtonText: 'Aceptar'
+      })
     }
+    this.inputFile.nativeElement.value = ""
+    return
     
   }
   processExcel(data) {
@@ -96,6 +108,7 @@ export class RegisterComponent implements OnInit {
       "login": el.Login,
       "identification": el.Cedula,
       "email": el.Correo,
+      "emailSupervisor": el.Correo_supervisor,
       "profile": el.Perfil.toString()
     }));
     
@@ -125,6 +138,7 @@ export class RegisterComponent implements OnInit {
         login: this.limpiarCadena("login", obj.login),
         identification: obj.identification,
         email: this.limpiarCadena("email", obj.email),
+        emailSupervisor: this.limpiarCadena("emailSupervisor", obj.emailSupervisor),
         profile: obj.profile
       }));
       localStorage.setItem("registros", JSON.stringify(this.registerArray))
@@ -136,6 +150,7 @@ export class RegisterComponent implements OnInit {
         registros,
         usuario_solictante: this.usuariosService.decodeToken().data
       }      
+// console.log(formsAndRegisters);
     
       // Posteo de la información
       this.formsService.insertRequestsOfUsers(JSON.stringify(formsAndRegisters)).subscribe((res:any) => {
@@ -154,6 +169,7 @@ export class RegisterComponent implements OnInit {
           login:'',
           identification:'',
           email:'',
+          emailSupervisor:'',
           profile:''
         }]))
         
@@ -171,6 +187,7 @@ export class RegisterComponent implements OnInit {
           login:'',
           identification:'',
           email:'',
+          emailSupervisor:'',
           profile:''
         }]))
       })
@@ -217,7 +234,7 @@ export class RegisterComponent implements OnInit {
 
 
   onResize(event) {
-    this.breakpoint = (event.target.innerWidth <= 700) ? 1 : 5;
+    this.breakpoint = (event.target.innerWidth <= 700) ? 1 : 6;
   }
 
   addRow(){
@@ -226,6 +243,7 @@ export class RegisterComponent implements OnInit {
       login:'',
       identification:'',
       email:'',
+      emailSupervisor:'',
       profile:''
     })
     this.guardarStorageRows()
@@ -238,6 +256,7 @@ export class RegisterComponent implements OnInit {
         login:'',
         identification:'',
         email:'',
+        emailSupervisor:'',
         profile:''
       })
     }

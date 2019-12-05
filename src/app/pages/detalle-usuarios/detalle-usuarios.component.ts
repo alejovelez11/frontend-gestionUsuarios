@@ -12,6 +12,8 @@ export class DetalleUsuariosComponent implements OnInit {
   constructor(public inicioService:InicioService) { }
 
   ngOnInit() {
+    console.log(this.inicioService.usuarios);
+    
   }
 
 }
