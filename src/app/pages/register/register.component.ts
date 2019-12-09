@@ -4,6 +4,7 @@ import Swal from 'sweetalert2'
 import { UsuariosService } from 'src/app/services/usuarios/usuarios.service';
 import { Router } from '@angular/router';
 import * as XLSX from 'xlsx';
+import { DatosExcel } from '../../interfaces/excel.interface';
 
 
 
@@ -14,6 +15,8 @@ import * as XLSX from 'xlsx';
 })
 export class RegisterComponent implements OnInit {
   breakpoint: number
+  isLoading:boolean = false;
+
   registerArray:any[] = [{
     fullName:'',
     login:'',
@@ -28,6 +31,7 @@ export class RegisterComponent implements OnInit {
   constructor(public formsService:FormsService, public usuariosService:UsuariosService, public router:Router) { }
 
   ngOnInit() {
+
     this.usuariosService.leerToken()
     if (!this.usuariosService.estaAutenticado()) {
       this.router.navigate(['/login'])
@@ -57,20 +61,21 @@ export class RegisterComponent implements OnInit {
   onFileSelected(event){
     let fileUpload = event.target.value
     let regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
-
+    
     if (regex.test(fileUpload.toLowerCase())) {
-        if (typeof (FileReader) != "undefined") {
+      if (typeof (FileReader) != "undefined") {
+          this.isLoading = true
             let reader = new FileReader();
             if (reader.readAsBinaryString) {
-                reader.onload = (e:any) => {
+              reader.onload = (e:any) => {
                   this.processExcel(e.target.result)
                 }
                 reader.readAsBinaryString(event.srcElement.files[0]);
-            } else {
-              reader.onload = (e:any) => {
-                let data = "";
-                let bytes = new Uint8Array(e.target.result);
-                for (let i = 0; i < bytes.byteLength; i++) {
+              } else {
+                reader.onload = (e:any) => {
+                  let data = "";
+                  let bytes = new Uint8Array(e.target.result);
+                  for (let i = 0; i < bytes.byteLength; i++) {
                     data += String.fromCharCode(bytes[i]);
                 }
                 this.processExcel(data);
@@ -103,24 +108,47 @@ export class RegisterComponent implements OnInit {
     let firstSheet = workbook.SheetNames[0];
     let excelRows = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheet]);
 
-    let registersArrayExcel = excelRows.map((el:any)=>({
+    let registersArrayExcel = excelRows.map((el:DatosExcel)=>({
       "fullName": el.Nombre,
       "login": el.Login,
       "identification": el.Cedula,
       "email": el.Correo,
       "emailSupervisor": el.Correo_supervisor,
-      "profile": el.Perfil.toString()
+      "profile": this.asignarPerfil(el.Perfil)
     }));
+    
+
+    console.log(registersArrayExcel);
+    
     
     this.registerArray = registersArrayExcel
     localStorage.setItem("registros", JSON.stringify(registersArrayExcel)) 
+    this.isLoading = false
+
+  }
+
+  asignarPerfil(perfil){
+    switch (perfil) {
+      case "asesor":
+      case "Asesor":
+      case 0:
+        return "0"
+
+      case "supervisor":
+      case "Supervisor":
+      case 1:
+        return "1"
+
+      default:
+        return "0"
+    }
   }
 
   register(form){
     if (!form.valid && this.inputFile.nativeElement.value == "") {
       // Validaciones
       Swal.fire({
-        text: "Debes copiar los registros o adjuntar un archivo",
+        text: "Debes completar todos los campos o adjuntar un archivo",
         type: 'error',
         confirmButtonText: 'Aceptar'
       })
@@ -265,8 +293,12 @@ export class RegisterComponent implements OnInit {
   }
 
   deleteRow(i){
-    this.registerArray.splice(i, 1)
-    this.guardarStorageRows()
+    if (this.registerArray.length === 1) {
+      return
+    }else{
+      this.registerArray.splice(i, 1)
+      this.guardarStorageRows()
+    } 
   }
 
   saveProfile(){

@@ -84,3 +84,15 @@ hr {
   opacity: .3;
   margin: 2em 0;
 }
+
+.container-excel{
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+.link-excel{
+  display: flex;
+  align-items: center;
+}
+.link-excel strong{
+  margin-right: 10px;
+}
