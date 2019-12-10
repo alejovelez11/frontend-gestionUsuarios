@@ -23,7 +23,7 @@ export class FormsComponent implements OnInit {
 
   constructor(private service:FormsService, public usuariosService:UsuariosService, public router:Router){}
   
-  ngOnInit() {
+  ngOnInit() {    
     this.loading = true
     this.usuariosService.leerToken()
     if (!this.usuariosService.estaAutenticado()) {
@@ -34,6 +34,7 @@ export class FormsComponent implements OnInit {
       this.isLoading = false;
       this.dataSource = new MatTableDataSource(res);
       this.dataSource.paginator = this.paginator
+      
     }, error => this.isLoading = false )
     if (!localStorage.getItem("formularios")) {
       localStorage.setItem("formularios",JSON.stringify([]))
@@ -44,11 +45,15 @@ export class FormsComponent implements OnInit {
     }
     
   }
+  changePaginator(){
+    this.ngOnInit()
+  }
   
   getValue(event){
     if (event.checked) {
       let objetoSeleccionado = this.dataSource.filteredData.filter(r => r.nombre_tabla_usuarios == event.source.value)
       let objetoTranformado = objetoSeleccionado.map(r=> ({id:r.id, formulario:r.nombre_tabla_usuarios}))
+      
       this.formularios.push(objetoTranformado[0]);
       localStorage.setItem("formularios", JSON.stringify(this.formularios))
     } else {
@@ -60,9 +65,15 @@ export class FormsComponent implements OnInit {
   onsearchKey(){
     this.searchKey = ""
     this.applyFilter()
+    this.ngOnInit()
   }
   applyFilter(){
+    if (this.searchKey === "") {
+      this.ngOnInit()
+    }
+    
     this.dataSource.filter = this.searchKey.trim().toLowerCase()
+
   }
   
 }

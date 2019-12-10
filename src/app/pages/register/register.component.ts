@@ -117,10 +117,6 @@ export class RegisterComponent implements OnInit {
       "profile": this.asignarPerfil(el.Perfil)
     }));
     
-
-    console.log(registersArrayExcel);
-    
-    
     this.registerArray = registersArrayExcel
     localStorage.setItem("registros", JSON.stringify(registersArrayExcel)) 
     this.isLoading = false

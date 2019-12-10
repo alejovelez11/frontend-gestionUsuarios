@@ -34,5 +34,5 @@ style="display: flex; justify-content: center; align-items: center">
     mode="indeterminate">
 </mat-progress-spinner>
 </mat-card>
-<mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+<mat-paginator (page)="changePaginator()" [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
 
