@@ -12,94 +12,94 @@ import { UsuariosService } from 'src/app/services/usuarios/usuarios.service';
   styleUrls: ['./gestion.component.css']
 })
 export class GestionComponent implements OnInit {
-  analistas:any[]
-  opciones:any[]
-  form:FormGroup
-  dataGestion:any[] = []
-  opcionEstado:string
-  perfilUsuario:number
-  desabilitarBoton:boolean
-  constructor(public inicioService:InicioService,
-    public router: Router,
-    public detalleRegistroComponent: DetalleRegistroComponent,
-    public userService:UsuariosService) { }
+  analistas: any[];
+  opciones: any[];
+  form: FormGroup;
+  dataGestion: any[] = [];
+  opcionEstado: string;
+  perfilUsuario: number;
+  desabilitarBoton: boolean;
+  constructor(public inicioService: InicioService,
+              public router: Router,
+              public detalleRegistroComponent: DetalleRegistroComponent,
+              public userService: UsuariosService) { }
 
   ngOnInit() {
-    this.cargarAnalistas()
-    this.cargarEstados()
-    this.cargarDataGestion()
+    this.cargarAnalistas();
+    this.cargarEstados();
+    this.cargarDataGestion();
     this.form = new FormGroup({
       analista: new FormControl(null, Validators.required),
       estado: new FormControl(null, Validators.required),
       observacion: new FormControl(null)
-    })
-    this.perfilUsuario = parseInt(this.userService.decodeToken().data.perfil)
-    this.consultarSiestaCancelado(this.detalleRegistroComponent.idParam)
+    });
+    this.perfilUsuario = parseInt(this.userService.decodeToken().data.perfil);
+    this.consultarSiestaCancelado(this.detalleRegistroComponent.idParam);
   }
-  consultarSiestaCancelado(idParam:number){
-    this.inicioService.consultarSiestaCancelado(idParam).subscribe((res:boolean)=>{
-      this.desabilitarBoton = res
-    })
+  consultarSiestaCancelado(idParam: number) {
+    this.inicioService.consultarSiestaCancelado(idParam).subscribe((res: boolean) => {
+      this.desabilitarBoton = res;
+    });
   }
-  cargarAnalistas(){
-    this.inicioService.cargarAnalistas().subscribe((analistas:any)=>{
-      this.analistas = analistas
-    })
+  cargarAnalistas() {
+    this.inicioService.cargarAnalistas().subscribe((analistas: any) => {
+      this.analistas = analistas;
+    });
   }
-  cargarEstados(){
-    this.inicioService.cargarEstados().subscribe((opciones:any)=>{
-      this.opciones = opciones
-    })
+  cargarEstados() {
+    this.inicioService.cargarEstados().subscribe((opciones: any) => {
+      this.opciones = opciones;
+    });
   }
-  cargarDataGestion(){
-    this.inicioService.cargarDataGestion(this.detalleRegistroComponent.idParam).subscribe((res:any)=>{
+  cargarDataGestion() {
+    this.inicioService.cargarDataGestion(this.detalleRegistroComponent.idParam).subscribe((res: any) => {
       this.dataGestion = res;
       this.form.get('analista').setValue(this.dataGestion[0].analista_asignado);
       this.form.get('estado').setValue(this.dataGestion[0].estado);
-      if (this.dataGestion[0].observacion === null && this.perfilUsuario !== -1){
-        this.form.get('observacion').setValue("No hay observaciones");
+      if (this.dataGestion[0].observacion === null && this.perfilUsuario !== -1) {
+        this.form.get('observacion').setValue('No hay observaciones');
       } else {
         this.form.get('observacion').setValue(this.dataGestion[0].observacion);
       }
-    })
+    });
   }
-  estadoValue(event){
-    this.opcionEstado = event.value 
+  estadoValue(event) {
+    this.opcionEstado = event.value;
   }
 
-  guardar(){
+  guardar() {
     const dataActualizar = {
       id: this.detalleRegistroComponent.idParam,
       analista: this.form.value.analista,
       estado: this.form.value.estado,
       observacion: this.form.value.observacion,
-    }
-    this.inicioService.dataActualizar(dataActualizar).subscribe((res:any) => {
-      if (this.opcionEstado === "Gestionado") {
-        this.inicioService.aceptarGestion(this.detalleRegistroComponent.idParam).subscribe((res:any)=>{
+    };
+    this.inicioService.dataActualizar(dataActualizar).subscribe((res: any) => {
+      if (this.opcionEstado === 'Gestionado') {
+        this.inicioService.aceptarGestion(this.detalleRegistroComponent.idParam).subscribe((res: any) => {
           Swal.fire({
             text: res.message,
             type: 'success',
             confirmButtonText: 'Aceptar'
-          })
-          this.router.navigate(['/inicio'])
-        })
+          });
+          this.router.navigate(['/inicio']);
+        });
       } else {
         Swal.fire({
           text: res.message,
           type: 'success',
           confirmButtonText: 'Aceptar'
-        })
-        this.router.navigate(['/inicio'])
-        return
+        });
+        this.router.navigate(['/inicio']);
+        return;
       }
-    }) 
+    });
   }
 
-  cancelarCreacion(){
+  cancelarCreacion() {
     Swal.fire({
       title: '¿Estás seguro?',
-      text: "Se cancelará ésta creación de usuarios",
+      text: 'Se cancelará ésta creación de usuarios',
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -107,15 +107,15 @@ export class GestionComponent implements OnInit {
       confirmButtonText: 'Si'
     }).then((result) => {
       if (result.value) {
-        this.inicioService.cancelarCreacion(this.detalleRegistroComponent.idParam).subscribe((res:any)=>{
+        this.inicioService.cancelarCreacion(this.detalleRegistroComponent.idParam).subscribe((res: any) => {
           Swal.fire(
             'Cancelado!',
             'Se cancelaron la creación de usuarios',
             'success'
-          )
-          this.router.navigate(['/inicio'])
-        })
+          );
+          this.router.navigate(['/inicio']);
+        });
       }
-    })
+    });
   }
 }

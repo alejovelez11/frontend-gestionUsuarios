@@ -9,7 +9,7 @@ import { InicioService } from 'src/app/services/inicio/inicio.service';
 export class DetalleUsuariosComponent implements OnInit {
   panelOpenState = false;
 
-  constructor(public inicioService:InicioService) { }
+  constructor(public inicioService: InicioService) { }
 
   ngOnInit() {
     console.log(this.inicioService.usuarios);

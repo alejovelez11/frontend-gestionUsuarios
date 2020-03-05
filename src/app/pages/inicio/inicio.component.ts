@@ -10,38 +10,39 @@ import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
   styleUrls: ['./inicio.component.css']
 })
 export class InicioComponent implements OnInit {
+  // tslint:disable-next-line:max-line-length
   displayedColumns: string[] = ['id', 'Nombre Solicitante', 'Analista Asigando', 'Fecha de Solicitud', 'Fecha de Gestión', 'Estado', 'Acciones'];
-  dataSource:MatTableDataSource<any>
+  dataSource: MatTableDataSource<any>;
   formularios = [];
-  login:any
-  searchKey:string
+  login: any;
+  searchKey: string;
   isLoading = true;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
-  constructor(public inicioService:InicioService, public userService:UsuariosService, public router:Router) { }
+  constructor(public inicioService: InicioService, public userService: UsuariosService, public router: Router) { }
 
   ngOnInit() {
-    this.userService.leerToken()
+    this.userService.leerToken();
     if (!this.userService.estaAutenticado()) {
-      this.router.navigate(['/login'])
-      return
+      this.router.navigate(['/login']);
+      return;
     }
-    this.login = this.userService.decodeToken()
-    this.inicioService.getInfoXuser(this.login.data.login).subscribe((res: any)=>{
+    this.login = this.userService.decodeToken();
+    this.inicioService.getInfoXuser(this.login.data.login).subscribe((res: any) => {
       this.isLoading = false;
       this.dataSource = new MatTableDataSource(res);
-      this.dataSource.paginator = this.paginator
-      this.dataSource.sort = this.sort
-    }, error => this.isLoading = false )
-  
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }, error => this.isLoading = false );
+
   }
-  onsearchKey(){
-    this.searchKey = ""
-    this.applyFilter()
+  onsearchKey() {
+    this.searchKey = '';
+    this.applyFilter();
   }
-  applyFilter(){
-    this.dataSource.filter = this.searchKey.trim().toLowerCase()
+  applyFilter() {
+    this.dataSource.filter = this.searchKey.trim().toLowerCase();
   }
 
 }

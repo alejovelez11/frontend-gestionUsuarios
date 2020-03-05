@@ -6,34 +6,34 @@ import { URL_SERVICIOS } from 'src/app/config/config';
   providedIn: 'root'
 })
 export class InicioService {
-  url = URL_SERVICIOS
-  formualarios:string[] = []
-  usuarios:object[]
-  constructor(public http:HttpClient) { }
+  url = URL_SERVICIOS;
+  formualarios: string[] = [];
+  usuarios: object[];
+  constructor(public http: HttpClient) { }
 
-  getInfoXuser(login:string){
-    return this.http.post(`${this.url}inicio`, JSON.stringify({login: login}))
+  getInfoXuser(login: string) {
+    return this.http.post(`${this.url}inicio`, JSON.stringify({login}));
   }
 
-  getDetailsXuser(id:number){
-    let url = `${this.url}inicio_detalle`
+  getDetailsXuser(id: number) {
+    const url = `${this.url}inicio_detalle`;
     return new Promise((resolve, reject) => {
-      this.http.post(url, JSON.stringify({id: id})).subscribe((resp: any[]) => {
-        this.formualarios = resp.map(r => r.nombre_proyecto).filter((valor, indiceActual, arreglo) => arreglo.indexOf(valor) === indiceActual)
-        this.usuarios = resp
-      
+      this.http.post(url, JSON.stringify({id})).subscribe((resp: any[]) => {
+        this.formualarios = resp.map(r => r.nombre_proyecto).filter((valor, indiceActual, arreglo) => arreglo.indexOf(valor) === indiceActual);
+        this.usuarios = resp;
+
         // para eliminar los datos duplicados que me trajo la base de datos
-        this.usuarios = this.eliminarObjetosDuplicados(this.usuarios, "login")
-        resolve(resp)
-      })
-    })
+        this.usuarios = this.eliminarObjetosDuplicados(this.usuarios, 'login');
+        resolve(resp);
+      });
+    });
   }
   // para eliminar los datos duplicados que me trajo la base de datos
-  eliminarObjetosDuplicados(arr, prop){
-    let nuevoArray = [];
-    let lookup  = {};
+  eliminarObjetosDuplicados(arr, prop) {
+    const nuevoArray = [];
+    const lookup  = {};
 
-    for (var i in arr) {
+    for (const i in arr) {
       lookup[arr[i][prop]] = arr[i];
     }
     for (i in lookup) {
@@ -41,39 +41,39 @@ export class InicioService {
     }
     return nuevoArray;
   }
-  
-  cargarAnalistas(){
-    let url = `${this.url}analistas`
-    return this.http.get(url)
+
+  cargarAnalistas() {
+    const url = `${this.url}analistas`;
+    return this.http.get(url);
   }
 
-  cargarEstados(){
-    let url = `${this.url}estados`
-    return this.http.get(url)
+  cargarEstados() {
+    const url = `${this.url}estados`;
+    return this.http.get(url);
   }
 
-  dataActualizar(data){
-    let url = `${this.url}actualizar`
-    return this.http.put(url, JSON.stringify(data))
+  dataActualizar(data) {
+    const url = `${this.url}actualizar`;
+    return this.http.put(url, JSON.stringify(data));
   }
 
-  cargarDataGestion(id:number){
-    let url = `${this.url}cargarGestion`
-    return this.http.post(url, JSON.stringify({id: id}))
+  cargarDataGestion(id: number) {
+    const url = `${this.url}cargarGestion`;
+    return this.http.post(url, JSON.stringify({id}));
   }
 
-  aceptarGestion(id:number){
-    let url = `${this.url}aceptarGestion`
-    return this.http.post(url, JSON.stringify({id: id}))
+  aceptarGestion(id: number) {
+    const url = `${this.url}aceptarGestion`;
+    return this.http.post(url, JSON.stringify({id}));
   }
 
-  cancelarCreacion(id:number){
-    let url = `${this.url}cancelarGestion`
-    return this.http.post(url, JSON.stringify({id: id}))
+  cancelarCreacion(id: number) {
+    const url = `${this.url}cancelarGestion`;
+    return this.http.post(url, JSON.stringify({id}));
   }
 
-  consultarSiestaCancelado(idParam:number){
-    let url = `${this.url}consultarSiestaCancelado`
-    return this.http.post(url, JSON.stringify({id: idParam}))
+  consultarSiestaCancelado(idParam: number) {
+    const url = `${this.url}consultarSiestaCancelado`;
+    return this.http.post(url, JSON.stringify({id: idParam}));
   }
 }

@@ -8,14 +8,14 @@ import { InicioService } from 'src/app/services/inicio/inicio.service';
   styleUrls: ['./detalle-formularios.component.css']
 })
 export class DetalleFormulariosComponent implements OnInit {
-  idParam:number
+  idParam: number;
 
-  constructor(public rutaActiva: ActivatedRoute, public inicioService:InicioService) { 
-    
+  constructor(public rutaActiva: ActivatedRoute, public inicioService: InicioService) {
+
   }
 
   ngOnInit() {
-       
+
   }
 
 }

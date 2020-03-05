@@ -4,9 +4,9 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class FormRegisterService {
-  data:any
+  data: any;
   constructor() { }
   dataForms(data){
-    this.data = data  
+    this.data = data;  
   }
 }

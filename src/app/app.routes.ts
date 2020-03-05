@@ -10,28 +10,28 @@ import { VerificaTokenGuard } from './services/guards/verifica-token.guard';
 
 const appRoutes: Routes = [
     {
-        path:'login',
+        path: 'login',
         component: LoginComponent
     },
     {
-        path:'inicio',
+        path: 'inicio',
          component: InicioComponent,
          canActivate: [VerificaTokenGuard]
     },
     {
-        path:'detalle_registro/:id',
+        path: 'detalle_registro/:id',
         component: DetalleRegistroComponent, 
         canActivate: [VerificaTokenGuard],
         children: [
-            {path:'detalle_usuarios', component: DetalleUsuariosComponent, canActivate: [VerificaTokenGuard], data:{titulo:'Usuarios'}},
-            {path:'detalle_formularios', component: DetalleFormulariosComponent, canActivate: [VerificaTokenGuard], data:{titulo:'Formularios'}},
-            {path:'gestion', component: GestionComponent, canActivate: [VerificaTokenGuard], data:{titulo:'Gestión'}},
+            {path: 'detalle_usuarios', component: DetalleUsuariosComponent, canActivate: [VerificaTokenGuard], data: {titulo: 'Usuarios'}},
+            {path: 'detalle_formularios', component: DetalleFormulariosComponent, canActivate: [VerificaTokenGuard], data: {titulo: 'Formularios'}},
+            {path: 'gestion', component: GestionComponent, canActivate: [VerificaTokenGuard], data: {titulo: 'Gestión'}},
         ]
     },
 
     {
-        path:'**',
-        component:NopagefoundComponent
+        path: '**',
+        component: NopagefoundComponent
     }
 ]
 
