@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import { UsuariosService } from 'src/app/services/usuarios/usuarios.service';
 import { Router } from '@angular/router';
 import * as XLSX from 'xlsx';
+import { DatosExcel } from '../../interfaces/excel.interface';
 
 
 
